@@ -5,6 +5,7 @@
   <title></title>
   <link rel="stylesheet" href="/styles/style.css">
 <script src="/components/angular/angular.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 </head>
 <body ng-app="myApp">
   <div ng-controller="postListController as postList">
@@ -14,12 +15,12 @@
   </div>
 
   <div ng-controller="newPostController as newPost">
-    <form>
+    <form ng-submit="newPost.submitPost()">
       <input type="text" ng-model="newPost.post.title"/>
       <input type="text" ng-model="newPost.post.tags"/>
       <input type="text" ng-model="newPost.post.content"/>
       <input type="text" ng-model="newPost.post.author"/>
-      <input type="submit" value="submit" ng-click="newPost.submitPost()">
+      <input type="submit" value="submit" >
     </form>
   </div>
 

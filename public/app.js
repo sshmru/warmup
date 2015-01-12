@@ -1,22 +1,31 @@
 var app = angular.module('myApp', [])
-
-app.factory('postListFactory', ['$http',
-  function($http) {
+app.factory('socket', function () {
+    var socket = io.connect('http://' + location.host);
+    return socket;
+})
+app.factory('postListFactory', ['$http', 'socket',
+  function($http, socket) {
     var factory = {}
+
+    socket.on('newPost', function(){
+      factory.getPosts()
+    })
+
     factory.posts = {
       data: []
     }
+
     factory.getPosts = function() {
       $http.get('/posts').
       success(function(data) {
         factory.posts.data = data
       })
     }
+
     factory.getPosts()
 
     factory.newPost = function(obj) {
       $http.post('/newpost', obj)
-      factory.getPosts()
     }
 
     return factory

@@ -1,7 +1,7 @@
 var express = require('express')
 
 
-module.exports = function(app, db) {
+module.exports = function(app, db, socket) {
   var router = express.Router()
 
 
@@ -13,6 +13,7 @@ module.exports = function(app, db) {
 
   router.post('/newpost', function(req, res) {
     db.newPost(req.body)
+    socket.newPost()
     res.send('ok')
   })
 
