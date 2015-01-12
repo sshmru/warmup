@@ -2,9 +2,9 @@
   "name": "warmup",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "node app.js"
+    "test": "node server.js"
   },
   "author": "",
   "license": "ISC",

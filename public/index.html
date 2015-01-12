@@ -8,7 +8,9 @@
 </head>
 <body ng-app="myApp">
   <div ng-controller="postListController as postList">
-  <p>{{postList.test}}</p>
+    <ul>
+      <li ng-repeat="post in postList.list.data">{{post}}</li>
+    </ul>
   </div>
 
   <script src="app.js"></script>
