@@ -1,10 +1,12 @@
 app.factory('postListFactory', ['$http', 'socket',
   function($http, socket) {
     var factory = {}
+    factory.filter = {}
 
     socket.on('newPost', function() {
-      factory.getPosts()
+      factory.getPosts(factory.filter)
     })
+
 
     factory.posts = {
       data: []
@@ -19,7 +21,7 @@ app.factory('postListFactory', ['$http', 'socket',
         })
     }
 
-    factory.getPosts()
+    factory.getPosts(factory.filter)
 
 
     return factory

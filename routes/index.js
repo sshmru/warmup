@@ -1,12 +1,12 @@
 var express = require('express')
 
 
-module.exports = function(app, db, socket) {
+module.exports = function(app, db, socket, rootPath) {
   var router = express.Router()
 
 
   router.get('/r/*', function(req, res) {
-    res.send('')
+    res.sendFile(rootPath + '/public/index.html')
   })
 
   router.post('/posts', function(req, res) {
@@ -32,7 +32,7 @@ module.exports = function(app, db, socket) {
   })
 
   router.get('*', function(req, res) {
-    res.sendFile(__dirname + '/public/index.html')
+    res.sendFile(rootPath + '/public/index.html')
   })
 
   return router
