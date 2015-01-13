@@ -6,7 +6,11 @@ exports.socketServer = function(server) {
       console.log('user connected')
     });
 
-    this.newPost = function(){
-      io.sockets.emit('newPost')
+    this.updateList = function(){
+      io.sockets.emit('updateList')
+    }
+
+    this.updatePost = function(postId){
+      io.sockets.emit('updatePost', postId)
     }
 };

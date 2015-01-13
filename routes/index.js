@@ -13,6 +13,7 @@ module.exports = function(app, db, socket, rootPath) {
     res.send(db.getPost(req.body.id))
   })
 
+
   router.post('/posts', function(req, res) {
     if(Object.keys(req.body).length > 0){
       var posts = db.filterPostList(req.body)
@@ -26,6 +27,7 @@ module.exports = function(app, db, socket, rootPath) {
       console.log(req.body)
     if(typeof req.body.id  === 'number'){
       db.newComment(req.body)
+      socket.updatePost(req.body.id)
       res.send('ok')
     }else{
       res.send('no post id')
@@ -34,7 +36,20 @@ module.exports = function(app, db, socket, rootPath) {
 
   router.post('/newpost', function(req, res) {
     db.newPost(req.body)
-    socket.newPost()
+    socket.updateList()
+    res.send('ok')
+  })
+
+  router.post('/upvotepost', function(req, res) {
+    db.postUpvote(req.body)
+    socket.updateList()
+    socket.updatePost(req.body.id)
+    res.send('ok')
+  })
+
+  router.post('/upvotecomment', function(req, res) {
+    db.commentUpvote(req.body)
+    socket.updatePost(req.body.id)
     res.send('ok')
   })
 

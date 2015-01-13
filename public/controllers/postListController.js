@@ -5,11 +5,9 @@ app.factory('postListFactory', ['$http', 'socket', '$routeParams',
       room: $routeParams.roomId
     }
 
-    socket.on('newPost', function() {
+    socket.on('updateList', function() {
       factory.getPosts(factory.filter)
     })
-
-
 
     factory.posts = {
       data: []
