@@ -9,8 +9,12 @@ module.exports = function(app, db, socket) {
     res.send('')
   })
 
-  router.get('/posts', function(req, res) {
-    var posts = db.getPosts()
+  router.post('/posts', function(req, res) {
+    if(Object.keys(req.body).length > 0){
+      var posts = db.filterPostList(req.body)
+    }else{
+      var posts = db.getPostList()
+    }
     res.send(posts)
   })
 

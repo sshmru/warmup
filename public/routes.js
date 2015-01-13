@@ -1,6 +1,6 @@
 app.config(function($routeProvider, $locationProvider) {
   $routeProvider
-   .when('/r/:roomName', {
+   .when('/r/:roomId', {
     templateUrl: 'templates/roomView.html',
     controller: 'roomController',
   })
