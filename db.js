@@ -56,9 +56,13 @@ db.filterPostList = function(filter) {
   return posts.filter(function(post){
     for(var item in filter){
       if(filter.hasOwnProperty(item)){
-        return post[item] === filter[item]
+        if(post[item] !== filter[item]){
+          return 0
+        }
       }
     }
+    console.log('passed')
+    return true
   });
 }
 

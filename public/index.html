@@ -28,7 +28,9 @@
 
   <div ng-controller="postListController as postList">
     <ul>
-      <li ng-repeat="post in postList.list.data | orderBy:'-updated'">{{post.title}}</li>
+      <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
+        <a ng-href="r/{{post.room}}/{{post.id}}">{{post.title + ''}}</a>
+      </li>
     </ul>
   </div>
 
@@ -42,8 +44,10 @@
     </form>
   </div>
 
+  <a href="/">room</a>
   <a href="r/room1">room</a>
-  <a href="r/room2/post2">post</a>
+  <a href="r/room2">room</a>
+  <a href="r/room3">room</a>
 
   <div ng-view></div>
 

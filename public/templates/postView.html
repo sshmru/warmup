@@ -1,4 +1,7 @@
 <div>
-  <p>post: {{params.postId}} </p>
-  <p>room: {{params.roomId}} </p>
+  <h1>{{postCtrl.currentPost.data.title}}</h1>
+  <article>
+    <p>{{postCtrl.currentPost.data.content}}</p>
+    <p>By: {{postCtrl.currentPost.data.author}}</p>
+  </article>
 </div

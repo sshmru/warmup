@@ -1,11 +1,14 @@
-app.factory('postListFactory', ['$http', 'socket',
-  function($http, socket) {
+app.factory('postListFactory', ['$http', 'socket', '$routeParams', 
+  function($http, socket, $routeParams) {
     var factory = {}
-    factory.filter = {}
+    factory.filter = {
+      room: $routeParams.roomId
+    }
 
     socket.on('newPost', function() {
       factory.getPosts(factory.filter)
     })
+
 
 
     factory.posts = {
@@ -16,8 +19,6 @@ app.factory('postListFactory', ['$http', 'socket',
       $http.post('/posts', filter)
         .success(function(data) {
           factory.posts.data = data
-          console.log(filter)
-          console.log(data)
         })
     }
 
