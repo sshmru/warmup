@@ -61,13 +61,24 @@ db.filterPostList = function(filter) {
         }
       }
     }
-    console.log('passed')
     return true
   });
 }
 
+db.getPost = function(id){
+  return posts[id]
+}
+
 db.getPostList = function() {
   return posts;
+}
+
+db.newComment = function(obj) {
+  posts[obj.id].comments.push({
+    author: obj.author || "anonymous",
+    text: obj.text || "no content",
+    updated: Date.now(),
+  })
 }
 
 db.newPost = function(obj) {

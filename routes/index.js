@@ -9,6 +9,10 @@ module.exports = function(app, db, socket, rootPath) {
     res.sendFile(rootPath + '/public/index.html')
   })
 
+  router.post('/getpost', function(req, res) {
+    res.send(db.getPost(req.body.id))
+  })
+
   router.post('/posts', function(req, res) {
     if(Object.keys(req.body).length > 0){
       var posts = db.filterPostList(req.body)
@@ -16,6 +20,16 @@ module.exports = function(app, db, socket, rootPath) {
       var posts = db.getPostList()
     }
     res.send(posts)
+  })
+
+  router.post('/newcomment', function(req, res) {
+      console.log(req.body)
+    if(typeof req.body.id  === 'number'){
+      db.newComment(req.body)
+      res.send('ok')
+    }else{
+      res.send('no post id')
+    }
   })
 
   router.post('/newpost', function(req, res) {
