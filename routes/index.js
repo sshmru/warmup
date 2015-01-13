@@ -20,6 +20,13 @@ module.exports = function(app, db, socket) {
     res.send('ok')
   })
 
+  router.post('/login', function(req, res) {
+    console.log(req.body)
+    var result = db.verifyUser(req.body.username, req.body.password)
+    console.log(result)
+    res.send(result)
+  })
+
   router.get('*', function(req, res) {
     res.sendFile(__dirname + '/public/index.html')
   })

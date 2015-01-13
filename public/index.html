@@ -12,6 +12,20 @@
 </head>
 
 <body ng-app="myApp">
+
+  <div ng-controller="userController as userCtrl">
+    <div ng-show="userCtrl.user.data.logged">
+      Logged as: {{userCtrl.user.data.username}}
+    </div>
+    <div ng-show="!userCtrl.user.data.logged">
+      <form ng-submit="userCtrl.login(userCtrl.loginData)">
+        <input type="text" ng-model="userCtrl.loginData.username" placeholder="username"/>
+        <input type="text" ng-model="userCtrl.loginData.password" placeholder="password" />
+        <input type="submit" value="login">
+      </form>
+    </div>
+  </div>
+
   <div ng-controller="postListController as postList">
     <ul>
       <li ng-repeat="post in postList.list.data | orderBy:'-updated'">{{post.title}}</li>
@@ -21,10 +35,9 @@
   <div ng-controller="newPostController as newPost">
 
     <form ng-submit="newPost.submitPost()">
-      <input type="text" ng-model="newPost.post.title" />
-      <input type="text" ng-model="newPost.post.tags" />
-      <input type="text" ng-model="newPost.post.content" />
-      <input type="text" ng-model="newPost.post.author" />
+      <input type="text" ng-model="newPost.post.title" placeholder="title"/>
+      <input type="text" ng-model="newPost.post.tags" placeholder="tags"/>
+      <input type="text" ng-model="newPost.post.content" placeholder="content"/>
       <input type="submit" value="submit">
     </form>
   </div>
@@ -35,6 +48,7 @@
 
   <script src="app.js"></script>
   <script src="routes.js"></script>
+  <script src="controllers/userController.js"></script>
   <script src="controllers/roomController.js"></script>
   <script src="controllers/postController.js"></script>
 </body>
