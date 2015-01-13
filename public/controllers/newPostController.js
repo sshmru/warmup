@@ -11,6 +11,16 @@ app.factory('newPostFactory', ['$http', 'userFactory', '$routeParams',
 ])
 app.controller('newPostController', ['$scope', 'newPostFactory',
   function($scope, newPostFactory) {
+    this.expanded = false
+
+    this.expand = function(){
+      this.expanded = true
+    }
+
+    this.toggleExpand = function(){
+      this.expanded = !this.expanded
+    }
+
     var emptyPost = function() {
       return {
         title: '',
