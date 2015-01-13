@@ -3,4 +3,5 @@ app.controller('roomController', ['$scope', '$routeParams', 'postListFactory' ,f
 //  postListFactory.filter.room = this.params.roomId
 
   postListFactory.getPosts({room: this.params.roomId})
+  postListFactory.data.navbar = false
 }])

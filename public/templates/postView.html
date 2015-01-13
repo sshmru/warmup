@@ -2,11 +2,12 @@
   <h1>{{postCtrl.currentPost.title}}</h1>
     <p>By: {{postCtrl.currentPost.author}}</p>
     <p>{{postCtrl.currentPost.updated | date}}</p>
-    <p>{{postCtrl.currentPost.upvotes.length}}</p>
+    <p>{{(postCtrl.current.post.score >= 0) ? '+' : ''}}{{postCtrl.currentPost.score}}</p>
   <article>
     <p>{{postCtrl.currentPost.content}}</p>
   </article>
-  <button ng-click="postCtrl.upvotePost()">upvote</button>
+  <button ng-click="postCtrl.upvotePost(1)">upvote</button>
+  <button ng-click="postCtrl.upvotePost(-1)">downvote</button>
 </div
 <div>
    <p>comments</p>
@@ -15,10 +16,11 @@
       <input type="submit" value="submit">
     </form>
   <div ng-repeat="comment in postCtrl.currentPost.comments">
-    <button ng-click="postCtrl.upvoteComment(comment.id)">upvote</button>
+    <button ng-click="postCtrl.upvoteComment(comment.id, 1)">upvote</button>
+    <button ng-click="postCtrl.upvoteComment(comment.id, -1)">downvote</button>
     <p>By: {{comment.author}}</p>
     <p>{{comment.date | date}}</p>
     <p>{{comment.text}}</p>
-    <p>{{comment.upvotes.length}}</p>
+    <p><sign val="comment.score"></sign>{{comment.score}}</p>
   </div>
 </div>

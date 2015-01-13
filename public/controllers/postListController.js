@@ -4,6 +4,9 @@ app.factory('postListFactory', ['$http', 'socket', '$routeParams',
     factory.filter = {
       room: $routeParams.roomId
     }
+    factory.data = {
+      navbar: true
+    }
 
     socket.on('updateList', function() {
       factory.getPosts(factory.filter)
@@ -30,5 +33,6 @@ app.factory('postListFactory', ['$http', 'socket', '$routeParams',
 app.controller('postListController', ['$scope', 'postListFactory',
   function($scope, postListFactory) {
     this.list = postListFactory.posts
+    this.data = postListFactory.data
   }
 ])

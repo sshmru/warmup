@@ -26,13 +26,13 @@
     </div>
   </div>
 
-  <div ng-controller="postListController as postList">
+  <nav ng-controller="postListController as postList" ng-show="postList.data.navbar">
     <ul>
       <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
-        <a ng-href="r/{{post.room}}/{{post.id}}">{{post.title + ''}}</a>
+        <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
       </li>
     </ul>
-  </div>
+  </nav>
 
   <div ng-controller="newPostController as newPost">
 

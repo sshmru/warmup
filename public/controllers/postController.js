@@ -1,5 +1,6 @@
-app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactory', 'socket',
-  function($scope, $routeParams, $http, userFactory, socket) {
+app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactory', 'socket', 'postListFactory',
+  function($scope, $routeParams, $http, userFactory, socket, postListFactory) {
+    postListFactory.data.navbar = true
     this.params = $routeParams
     this.currentPost = {}
     var self = this;
@@ -48,18 +49,20 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
       this.newComment = ''
     }
 
-    this.upvotePost = function() {
+    this.upvotePost = function(value) {
       var data = {
         id: self.currentPost.id,
+        value: value,
         author: userFactory.user.data.username,
       }
       $http.post('/upvotepost', data)
     }
 
-    this.upvoteComment = function(commentId) {
+    this.upvoteComment = function(commentId, value) {
       var data = {
         commentId: commentId,
         id: self.currentPost.id,
+        value: value,
         author: userFactory.user.data.username,
       }
       $http.post('/upvotecomment', data)

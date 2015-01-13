@@ -1,3 +1,9 @@
 <div>
-  <p>room: {{roomCtrl.params.roomId}} </p>
+  <div ng-controller="postListController as postList">
+    <ul>
+      <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
+        <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
+      </li>
+    </ul>
+  </div>
 </div

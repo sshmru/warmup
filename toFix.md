@@ -11,3 +11,5 @@
 [ ] post list should send just title list instead of whole db
 
 [ ] upvotes should be send as number not array
+
+[ ] rename upvotes property, its array of who voted

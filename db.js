@@ -18,11 +18,13 @@ var posts = [{
   tags: "angular express node warmup",
   content: "lets try this",
   updated: Date.now(),
+  score: 0,
   upvotes: [],
   comments: [{
     id: 0,
     author: 'rtoip',
     date: Date.now(),
+    score: 0,
     upvotes: [],
     text: "will it work?"
   }]
@@ -34,11 +36,13 @@ var posts = [{
   tags: "letsmake more",
   content: "hope it works",
   updated: Date.now(),
+  score: 0,
   upvotes: [],
   comments: [{
     id: 0,
     author: 'whoever',
     date: Date.now(),
+    score: 0,
     upvotes: [],
     text: "dawww"
   }]
@@ -63,12 +67,13 @@ db.verifyUser = function(username, password) {
 db.filterPostList = function(filter) {
   return posts.filter(function(post) {
     for (var item in filter) {
-      if (filter.hasOwnProperty(item)) {
-        if (post[item] !== filter[item]) {
-          return 0
-        }
+      if (item === 'room' && filter[item] === 'general') {
+
+      } else if (filter.hasOwnProperty(item) && post[item] !== filter[item]) {
+        return 0
       }
     }
+
     return true
   });
 }
@@ -83,10 +88,13 @@ db.getPostList = function() {
 
 db.postUpvote = function(obj) {
   posts[obj.id].upvotes.push(obj.author)
+  posts[obj.id].score += (obj.value > 0) ? 1 : -1
+
 }
 
 db.commentUpvote = function(obj) {
   posts[obj.id].comments[obj.commentId].upvotes.push(obj.author)
+  posts[obj.id].comments[obj.commentId].score += (obj.value > 0) ? 1 : -1
 }
 
 db.newComment = function(obj) {
@@ -95,6 +103,7 @@ db.newComment = function(obj) {
     author: obj.author || "anonymous",
     text: obj.text || "no content",
     date: Date.now(),
+    score: 0,
     upvotes: []
   })
 }
@@ -108,6 +117,7 @@ db.newPost = function(obj) {
     tags: obj.tags || "",
     content: obj.content || "no content",
     updated: Date.now(),
+    score: 0,
     upvotes: [],
     comments: []
   })

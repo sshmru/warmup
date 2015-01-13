@@ -11,7 +11,7 @@ app.config(function($routeProvider, $locationProvider) {
     controllerAs: 'postCtrl',
   })
   .otherwise({
-    redirectTo: '/'
+    redirectTo: '/r/general'
   });
 
   $locationProvider.html5Mode(true);
