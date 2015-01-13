@@ -77,7 +77,7 @@ db.newComment = function(obj) {
   posts[obj.id].comments.push({
     author: obj.author || "anonymous",
     text: obj.text || "no content",
-    updated: Date.now(),
+    date: Date.now(),
   })
 }
 
