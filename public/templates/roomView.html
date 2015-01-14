@@ -1,9 +1,9 @@
-<div>
   <div ng-controller="postListController as postList">
-    <ul>
-      <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
-        <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
-      </li>
-    </ul>
+      <div ng-repeat="post in postList.list.data | orderBy:'-updated'">
+        <h4>
+          <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
+        </h4>
+          <p>{{post.content.substring(0,80)}}</p>
+          <p class="text-muted">{{post.updated}} -- {{post.author}} </p>
+      </div>
   </div>
-</div

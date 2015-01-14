@@ -5,7 +5,7 @@ app.factory('postListFactory', ['$http', 'socket', '$routeParams',
       room: $routeParams.roomId
     }
     factory.data = {
-      navbar: true
+      navbar: false
     }
 
     socket.on('updateList', function() {

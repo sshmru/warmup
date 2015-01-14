@@ -6,53 +6,74 @@
   <meta charset="UTF-8">
   <title></title>
   <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
   <script src="/components/angular/angular.min.js"></script>
   <script src="/components/angular-route/angular-route.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" class="container">
 
-  <div ng-controller="userController as userCtrl">
-    <div ng-show="userCtrl.user.data.logged">
-      Logged as: {{userCtrl.user.data.username}}
-    </div>
-    <div ng-show="!userCtrl.user.data.logged">
-      <form ng-submit="userCtrl.login(userCtrl.loginData)">
-        <input type="text" ng-model="userCtrl.loginData.username" placeholder="username"/>
-        <input type="text" ng-model="userCtrl.loginData.password" placeholder="password" />
-        <input type="submit" value="login">
-      </form>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8"></div>
+      <div ng-controller="userController as userCtrl" class="col-md-4">
+        <div ng-show="userCtrl.user.data.logged">
+          Logged as: {{userCtrl.user.data.username}}
+        </div>
+        <div ng-show="!userCtrl.user.data.logged">
+          <form ng-submit="userCtrl.login(userCtrl.loginData)" class="form-group">
+            <input type="text" ng-model="userCtrl.loginData.username" placeholder="username" class="form-control" />
+            <input type="password" ng-model="userCtrl.loginData.password" placeholder="password" class="form-control" />
+            <input type="submit" value="login" class="btn btn-primary">
+          </form>
+        </div>
+      </div>
+
+      <div class="">
+        <a href="/">room</a>
+        <a href="r/room1">room</a>
+        <a href="r/room2">room</a>
+        <a href="r/room3">room</a>
+      </div>
     </div>
   </div>
 
-  <nav ng-controller="postListController as postList" ng-show="postList.data.navbar">
-    <ul>
-      <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
-        <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
-      </li>
-    </ul>
-  </nav>
+  <hr/>
 
-  <div ng-controller="newPostController as newPost">
+  <div class="container">
 
-    <form ng-submit="newPost.submitPost()">
-      <textarea type="text" ng-model="newPost.post.content" ng-focus="newPost.expand()"
-        ng-blur="newPost.post.content.trim() || newPost.toggleExpand()" placeholder="content"></textarea>
-      <span ng-show="newPost.expanded">
-        <input type="text" ng-model="newPost.post.title" placeholder="title"/>
-        <input type="text" ng-model="newPost.post.tags" placeholder="tags"/>
-        <input type="submit" value="submit">
-      </span>
-    </form>
+    <div class="row">
+
+      <div class="col-md-8">
+
+
+        <div ng-controller="newPostController as newPost" class="">
+
+          <form ng-submit="newPost.submitPost()" class="form-group">
+            <textarea type="text" ng-model="newPost.post.content" ng-focus="newPost.expand()" class="form-control" ng-blur="newPost.post.content.trim() || newPost.toggleExpand()" placeholder="content"></textarea>
+            <div ng-show="newPost.expanded">
+              <input type="text" ng-model="newPost.post.title" placeholder="title" class="form-control" />
+              <input type="text" ng-model="newPost.post.tags" placeholder="tags" class="form-control" />
+              <input type="submit" value="submit" class="btn btn-primary">
+            </div>
+          </form>
+        </div>
+
+        <div ng-view class=""></div>
+
+      </div>
+
+      <nav ng-controller="postListController as postList" ng-show="postList.data.navbar" class="container col-md-4">
+        <ul>
+          <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
+            <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
   </div>
-
-  <a href="/">room</a>
-  <a href="r/room1">room</a>
-  <a href="r/room2">room</a>
-  <a href="r/room3">room</a>
-
-  <div ng-view></div>
 
   <script src="app.js"></script>
   <script src="routes.js"></script>

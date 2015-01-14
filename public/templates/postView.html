@@ -1,26 +1,44 @@
-<div>
-  <h1>{{postCtrl.currentPost.title}}</h1>
-    <p>By: {{postCtrl.currentPost.author}}</p>
-    <p>{{postCtrl.currentPost.updated | date}}</p>
-    <p>{{(postCtrl.current.post.score >= 0) ? '+' : ''}}{{postCtrl.currentPost.score}}</p>
-  <article>
-    <p>{{postCtrl.currentPost.content}}</p>
-  </article>
-  <button ng-click="postCtrl.upvotePost(1)">upvote</button>
-  <button ng-click="postCtrl.upvotePost(-1)">downvote</button>
-</div
-<div>
-   <p>comments</p>
-    <form ng-submit="postCtrl.submitComment()">
-      <textarea type="text" ng-model="postCtrl.newComment" placeholder="comment"></textarea>
-      <input type="submit" value="submit">
-    </form>
-  <div ng-repeat="comment in postCtrl.currentPost.comments">
-    <button ng-click="postCtrl.upvoteComment(comment.id, 1)">upvote</button>
-    <button ng-click="postCtrl.upvoteComment(comment.id, -1)">downvote</button>
-    <p>By: {{comment.author}}</p>
-    <p>{{comment.date | date}}</p>
-    <p>{{comment.text}}</p>
-    <p><sign val="comment.score"></sign>{{comment.score}}</p>
+<article class="panel panel-default">
+  <div class="row">
+    <div class="col-md-2">
+      <p>{{(postCtrl.current.post.score >= 0) ? '+' : ''}}{{postCtrl.currentPost.score}}</p>
+      <div class="btn-group-vertical">
+      <button ng-click="postCtrl.upvotePost(1)" class="btn">upvote</button>
+      <button ng-click="postCtrl.upvotePost(-1)" class="btn">downvote</button>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <h1>{{postCtrl.currentPost.title}}</h1>
+      <p>By: {{postCtrl.currentPost.author}}</p>
+      <p>{{postCtrl.currentPost.updated | date}}</p>
+      <p>{{postCtrl.currentPost.content}}</p>
+      <!--this one maps links in text to html 
+    <p safe-links-text="postCtrl.currentPost.content"></p>
+    -->
+    </div>
   </div>
-</div>
+</article>
+  <div class="">
+
+    <h4>Comments:</h4>
+    <div class="panel panel-default">
+      <form ng-submit="postCtrl.submitComment()" class="form-group ">
+        <textarea type="text" ng-model="postCtrl.newComment" placeholder="comment" class="form-control"></textarea>
+        <input type="submit" value="submit" class="btn btn-primary">
+      </form>
+    </div>
+
+    <div ng-repeat="comment in postCtrl.currentPost.comments" class="panel panel-default">
+      <div class="col-sm-2">
+        <p>{{(content.score >= 0) ? '+' : ''}}{{comment.score}}</p>
+      <div class="btn-group-vertical">
+        <button ng-click="postCtrl.upvoteComment(comment.id, 1)" class="btn">upvote</button>
+        <button ng-click="postCtrl.upvoteComment(comment.id, -1)" class="btn">downvote</button>
+        </div>
+      </div>
+      <div class="col-sm-10">
+        <h4>By: {{comment.author}} <small>{{comment.date | date}}</small></h4>
+        <p>{{comment.text}}</p>
+      </div>
+    </div>
+  </div>
