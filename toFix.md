@@ -19,3 +19,7 @@
 [ ] upvote buttons as reusable component
 
 [ ] new post blur prevents user from setting title before writing 
+
+[+] get comments out of post model
+
+[ ] side and main post lists propably shoudl be separate

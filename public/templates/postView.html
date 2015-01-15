@@ -8,8 +8,7 @@
     </div>
     <div class="col-md-10">
       <h1>{{postCtrl.currentPost.title}}</h1>
-      <p>By: {{postCtrl.currentPost.author}}</p>
-      <p>{{postCtrl.currentPost.updated | date}}</p>
+      <h4>By: {{postCtrl.currentPost.author}} <small>{{postCtrl.currentPost.updated | date}}</small></h4>
       <p linkify="postCtrl.currentPost.content"></p>
     </div>
 </article>

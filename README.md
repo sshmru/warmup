@@ -7,6 +7,6 @@ not connected to database, fake authentcation(no session)
 
 1)npm install
 2)bower install
-3)npm test
+3)npm start
 
 made for training purposes

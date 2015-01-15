@@ -3,11 +3,13 @@ var db = {}
 var users = [{
   id: 0,
   username: "piotr",
-  password: "piotr"
+  password: "piotr",
+  info: 'info o userze piotr'
 }, {
   id: 1,
   username: "test",
-  password: "test"
+  password: "test",
+  info: 'info o userze test'
 }]
 
 var posts = [{
@@ -20,14 +22,7 @@ var posts = [{
   updated: Date.now(),
   score: 0,
   upvotes: [],
-  comments: [{
-    id: 0,
-    author: 'rtoip',
-    date: Date.now(),
-    score: 0,
-    upvotes: [],
-    text: "will it work?"
-  }]
+  comments: [0]
 }, {
   id: 1,
   author: "author",
@@ -38,17 +33,10 @@ var posts = [{
   updated: Date.now(),
   score: 0,
   upvotes: [],
-  comments: [{
-    id: 0,
-    author: 'whoever',
-    date: Date.now(),
-    score: 0,
-    upvotes: [],
-    text: "dawww"
-  }]
+  comments: [1]
 }]
 
-var = comments: [{
+var comments = [{
     id: 0,
     author: 'rtoip',
     date: Date.now(),
@@ -63,6 +51,13 @@ var = comments: [{
     upvotes: [],
     text: "dawww"
   }]
+
+db.getProfile = function(id) {
+      return {
+        username: users[id].username,
+        info: users[id].info
+      }
+}
 
 db.verifyUser = function(username, password) {
   for (var i = 0; i < users.length - 1; i++) {
@@ -95,7 +90,14 @@ db.filterPostList = function(filter) {
 }
 
 db.getPost = function(id) {
-  return posts[id]
+  var retPost = {}
+  for(var prop in posts[id]){
+    retPost[prop] = posts[id][prop]
+  }
+  retPost.comments = retPost.comments.map(function(a){
+    return comments[a]
+  })
+  return retPost
 }
 
 db.getPostList = function() {
@@ -110,13 +112,15 @@ db.postUpvote = function(obj) {
 }
 
 db.commentUpvote = function(obj) {
-  posts[obj.id].comments[obj.commentId].upvotes.push(obj.author)
-  posts[obj.id].comments[obj.commentId].score += (obj.value > 0) ? 1 : -1
+  comments[obj.commentId].upvotes.push(obj.author)
+  comments[obj.commentId].score += (obj.value > 0) ? 1 : -1
 }
 
 db.newComment = function(obj) {
-  posts[obj.id].comments.push({
-    id: posts[obj.id].comments.length,
+    var commentId = comments.length
+    posts[obj.id].comments.push(commentId)
+    comments.push({
+    id: commentId,
     author: obj.author || "anonymous",
     text: obj.text || "no content",
     date: Date.now(),

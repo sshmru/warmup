@@ -11,7 +11,7 @@ app.factory('userFactory', ['$http',
       $http.post('/login', data)
         .success(function(data) {
           factory.user.data = data
-          alert(data.logged)
+          console.log(factory.user.data)
         })
     }
 
@@ -22,7 +22,6 @@ app.controller('userController', ['$scope', 'userFactory' ,function($scope, user
   this.user = userFactory.user
   this.loginData = {}
   this.login = function(loginData){
-    console.log(this.loginData)
     userFactory.login(loginData)
     this.loginData = {}
   }

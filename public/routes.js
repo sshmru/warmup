@@ -3,12 +3,17 @@ app.config(function($routeProvider, $locationProvider) {
    .when('/r/:roomId', {
     templateUrl: 'templates/roomView.html',
     controller: 'roomController',
-    controllerAs: 'roomCtrl',
+    controllerAs: 'roomCtrl'
   })
    .when('/r/:roomId/:postId', {
     templateUrl: 'templates/postView.html',
     controller: 'postController',
-    controllerAs: 'postCtrl',
+    controllerAs: 'postCtrl'
+  })
+   .when('/u/:profileId', {
+    templateUrl: 'templates/profileView.html',
+    controller: 'profileController',
+    controllerAs: 'profileCtrl'
   })
   .otherwise({
     redirectTo: '/r/general'

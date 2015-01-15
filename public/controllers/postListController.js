@@ -19,7 +19,9 @@ app.factory('postListFactory', ['$http', 'socket', '$routeParams',
     factory.getPosts = function(filter) {
       $http.post('/posts', filter)
         .success(function(data) {
+          console.log(filter)
           factory.posts.data = data
+          console.log(data)
         })
     }
 

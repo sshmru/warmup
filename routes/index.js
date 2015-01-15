@@ -9,10 +9,17 @@ module.exports = function(app, db, socket, rootPath) {
     res.sendFile(rootPath + '/public/index.html')
   })
 
+  router.get('/u/*', function(req, res) {
+    res.sendFile(rootPath + '/public/index.html')
+  })
+
   router.post('/getpost', function(req, res) {
     res.send(db.getPost(req.body.id))
   })
 
+  router.post('/getprofile', function(req, res) {
+    res.send(db.getProfile(req.body.id))
+  })
 
   router.post('/posts', function(req, res) {
     if(Object.keys(req.body).length > 0){

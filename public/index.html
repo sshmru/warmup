@@ -16,8 +16,8 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-8"></div>
-      <div ng-controller="userController as userCtrl" class="col-md-4">
+      <div class="col-md-9"></div>
+      <div ng-controller="userController as userCtrl" class="col-md-3">
         <div ng-show="userCtrl.user.data.logged">
           Logged as: {{userCtrl.user.data.username}}
         </div>
@@ -45,7 +45,7 @@
 
     <div class="row">
 
-      <div class="col-md-8">
+      <div class="col-md-9">
 
 
         <div ng-controller="newPostController as newPost" class="row">
@@ -64,7 +64,7 @@
 
       </div>
 
-      <nav ng-controller="postListController as postList" ng-show="postList.data.navbar" class="container col-md-4">
+      <nav ng-controller="postListController as postList" ng-show="postList.data.navbar" class="container col-md-3">
         <ul>
           <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
             <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
@@ -79,9 +79,10 @@
   <script src="routes.js"></script>
   <script src="controllers/newPostController.js"></script>
   <script src="controllers/roomController.js"></script>
+  <script src="controllers/postController.js"></script>
+  <script src="controllers/profileController.js"></script>
   <script src="controllers/postListController.js"></script>
   <script src="controllers/userController.js"></script>
-  <script src="controllers/postController.js"></script>
   <script src="directives/linkify.js"></script>
 </body>
 
