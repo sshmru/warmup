@@ -1,5 +1,5 @@
-app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactory', 'socket', 'postListFactory',
-  function($scope, $routeParams, $http, userFactory, socket, postListFactory) {
+app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactory', 'socket', 'postListFactory', '$sce',
+  function($scope, $routeParams, $http, userFactory, socket, postListFactory, $sce) {
     postListFactory.data.navbar = true
     this.params = $routeParams
     this.currentPost = {}

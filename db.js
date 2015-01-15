@@ -48,6 +48,22 @@ var posts = [{
   }]
 }]
 
+var = comments: [{
+    id: 0,
+    author: 'rtoip',
+    date: Date.now(),
+    score: 0,
+    upvotes: [],
+    text: "will it work?"
+  },{
+    id: 1,
+    author: 'whoever',
+    date: Date.now(),
+    score: 0,
+    upvotes: [],
+    text: "dawww"
+  }]
+
 db.verifyUser = function(username, password) {
   for (var i = 0; i < users.length - 1; i++) {
     var user = users[i]
@@ -86,6 +102,7 @@ db.getPostList = function() {
   return posts;
 }
 
+
 db.postUpvote = function(obj) {
   posts[obj.id].upvotes.push(obj.author)
   posts[obj.id].score += (obj.value > 0) ? 1 : -1
@@ -113,7 +130,7 @@ db.newPost = function(obj) {
     id: posts.length,
     author: obj.author || "anonymous",
     room: obj.room || "general",
-    title: obj.title || "new post " + posts.length + 1,
+    title: obj.title || "new post " + (posts.length + 1),
     tags: obj.tags || "",
     content: obj.content || "no content",
     updated: Date.now(),

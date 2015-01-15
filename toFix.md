@@ -17,3 +17,5 @@
 [ ] rename upvotes property, its array of who vote d
 
 [ ] upvote buttons as reusable component
+
+[ ] new post blur prevents user from setting title before writing 
