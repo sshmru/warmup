@@ -22,3 +22,4 @@
 
 [ ] side and main post lists propably shoudl be separate
 
+[ ] post and comment entities propably should be sinle directive across the board

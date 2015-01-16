@@ -1,6 +1,7 @@
 app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactory', 'socket', 'postListFactory', '$sce',
   function($scope, $routeParams, $http, userFactory, socket, postListFactory, $sce) {
     postListFactory.data.navbar = true
+    this.expandComment = false
     this.params = $routeParams
     this.currentPost = {}
     var self = this;
@@ -47,6 +48,7 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
         })
 
       this.newComment = ''
+      this.expandComment = false
     }
 
     this.upvotePost = function(value) {

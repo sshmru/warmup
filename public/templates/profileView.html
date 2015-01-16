@@ -1,33 +1,33 @@
-<article class="panel panel-default row">
-  <div class="col-md-2">
-    <div>
-      <button class="btn btn-primary" ng-click="profileCtrl.show = 'info'">info</button>
-    </div>
-    <div>
-      <button class="btn btn-primary" ng-click="profileCtrl.show = 'posts'">posts</button>
-    </div>
-    <div>
-      <button class="btn btn-primary" ng-click="profileCtrl.show = 'comments'">comments</button>
-    </div>
+<article class="hero-unit row">
+  <div class="col-sm-2 btn-group-vertical">
+      <div>
+        <button class="btn btn-block btn-default" ng-click="profileCtrl.show = 'info'">info</button>
+      </div>
+      <div>
+        <button class="btn btn-block btn-default" ng-click="profileCtrl.show = 'posts'">posts</button>
+      </div>
+      <div>
+        <button class="btn btn-block btn-default" ng-click="profileCtrl.show = 'comments'">comments</button>
+      </div>
   </div>
   </div>
 
 
-  <div class="col-md-10">
-    <div ng-show="profileCtrl.show === 'info'">
+  <div class="col-sm-10">
+    <div ng-show="profileCtrl.show === 'info'" class="well">
       <h1>{{profileCtrl.user.username}}</h1>
       <p linkify="profileCtrl.user.info"></p>
     </div>
 
     <div ng-show="profileCtrl.show === 'posts'">
-      <div ng-repeat="post in profileCtrl.user.posts" class="panel panel-default row">
+      <div ng-repeat="post in profileCtrl.user.posts" class="well">
         <h4>By: {{post.author}} <small>{{post.updated | date}}</small></h4>
         <p>{{post.content}}</p>
       </div>
     </div>
 
     <div ng-show="profileCtrl.show === 'comments'">
-      <div ng-repeat="comment in profileCtrl.user.comments" class="panel panel-default row">
+      <div ng-repeat="comment in profileCtrl.user.comments" class="well">
         <h4>By: {{comment.author}} <small>{{comment.date | date}}</small></h4>
         <p>{{comment.text}}</p>
       </div>

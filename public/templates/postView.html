@@ -1,37 +1,44 @@
-<article class="panel panel-default row">
-    <div class="col-md-2">
-      <p>{{(postCtrl.current.post.score >= 0) ? '+' : ''}}{{postCtrl.currentPost.score}}</p>
-      <div class="btn-group-vertical">
-      <button ng-click="postCtrl.upvotePost(1)" class="btn">upvote</button>
-      <button ng-click="postCtrl.upvotePost(-1)" class="btn">downvote</button>
-      </div>
+<article class="hero-unit row">
+  <div class="col-sm-2 text-center">
+    <p>
+      <strong> {{((postCtrl.currentPost.score >= 0) ? '+' : '') + postCtrl.currentPost.score}} </strong>
+    </p>
+    <div class="btn-group-vertical">
+      <button ng-click="postCtrl.upvotePost(1)" class="btn btn-success">upvote</button>
+      <button ng-click="postCtrl.upvotePost(-1)" class="btn btn-danger">downvote</button>
     </div>
-    <div class="col-md-10">
-      <h1>{{postCtrl.currentPost.title}}</h1>
-      <h4>By: {{postCtrl.currentPost.author}} <small>{{postCtrl.currentPost.updated | date}}</small></h4>
+  </div>
+  <div class="col-sm-10">
+    <h2>{{postCtrl.currentPost.title}}</h1>
+      <h4>By: <a ng-href="/u/{{postCtrl.currentPost.author}}">{{postCtrl.currentPost.author}}</a> <small>{{postCtrl.currentPost.updated | date}}</small></h4>
+      <hr/>
       <p linkify="postCtrl.currentPost.content"></p>
     </div>
 </article>
-  <div class="">
 
+  <div class="">
     <h4>Comments:</h4>
-    <div class="panel panel-default row">
+    <div class="row">
       <form ng-submit="postCtrl.submitComment()" class="form-group ">
-        <textarea type="text" ng-model="postCtrl.newComment" placeholder="comment" class="form-control"></textarea>
-        <input type="submit" value="submit" class="btn btn-primary">
+        <textarea
+          ng-focus="postCtrl.expandComment = true"
+          ng-blur="postCtrl.newComment.trim() || (postCtrl.expandComment = false)"
+          rows="{{postCtrl.expandComment ? 5 : 1}}"
+          type="text" ng-model="postCtrl.newComment" placeholder="comment" class="form-control"></textarea>
+        <input ng-show="postCtrl.expandComment" type="submit" value="submit" class="btn btn-primary">
       </form>
     </div>
 
-    <div ng-repeat="comment in postCtrl.currentPost.comments" class="panel panel-default row">
-      <div class="col-sm-2">
-        <p>{{(content.score >= 0) ? '+' : ''}}{{comment.score}}</p>
-      <div class="btn-group-vertical">
-        <button ng-click="postCtrl.upvoteComment(comment.id, 1)" class="btn">upvote</button>
-        <button ng-click="postCtrl.upvoteComment(comment.id, -1)" class="btn">downvote</button>
+    <div ng-repeat="comment in postCtrl.currentPost.comments" class="row">
+      <div class="col-sm-2 text-center">
+        <p><strong>{{((comment.score >= 0) ? '+' : '') + comment.score}}</strong></p>
+        <div class="btn-group-vertical">
+          <button ng-click="postCtrl.upvoteComment(comment.id, 1)" class="btn btn-success">upvote</button>
+          <button ng-click="postCtrl.upvoteComment(comment.id, -1)" class="btn  btn-danger">downvote</button>
         </div>
       </div>
-      <div class="col-sm-10">
-        <h4>By: {{comment.author}} <small>{{comment.date | date}}</small></h4>
+      <div class="col-sm-10 well">
+        <h4>By: <a ng-href="/u/{{comment.author}}">{{comment.author}}</a> <small>{{comment.date | date}}</small></h4>
         <p>{{comment.text}}</p>
       </div>
     </div>

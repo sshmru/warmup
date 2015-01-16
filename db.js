@@ -5,14 +5,14 @@ var users = [{
   username: "piotr",
   password: "piotr",
   info: 'info o userze piotr',
-  comments:[1],
+  comments: [1],
   posts: [0]
 }, {
   id: 1,
   username: "test",
   password: "test",
   info: 'info o userze test',
-  comments:[0],
+  comments: [0],
   posts: [1]
 }]
 
@@ -40,42 +40,49 @@ var posts = [{
   comments: [1]
 }]
 
-var findUserByName = function(username){
-  for(var user in users){
-    if(users[user].username === username){
+var findUserByName = function(username) {
+  for (var user in users) {
+    if (users[user].username === username) {
       return users[user]
     }
   }
 }
 
 var comments = [{
-    id: 0,
-    author: 'test',
-    date: Date.now(),
-    score: 0,
-    upvotes: [],
-    text: "will it work?"
-  },{
-    id: 1,
-    author: 'piotr',
-    date: Date.now(),
-    score: 0,
-    upvotes: [],
-    text: "dawww"
-  }]
+  id: 0,
+  author: 'test',
+  date: Date.now(),
+  score: 0,
+  upvotes: [],
+  text: "will it work?"
+}, {
+  id: 1,
+  author: 'piotr',
+  date: Date.now(),
+  score: 0,
+  upvotes: [],
+  text: "dawww"
+}]
 
 db.getProfile = function(id) {
-  console.log(id)
-      return {
-        username: users[id].username,
-        info: users[id].info,
-        comments: users[id].comments.map(function(a){
-          return comments[a]
-        }),
-        posts: users[id].posts.map(function(a){
-          return posts[a]
-        })
-      }
+  var user = {}
+  if (isNaN(Number(id))) {
+    user = findUserByName(id)
+  } else if (users[id]) {
+    user = users[id]
+  } else {
+    return false
+  }
+  return {
+    username: user.username,
+    info: user.info,
+    comments: user.comments.map(function(a) {
+      return comments[a]
+    }),
+    posts: user.posts.map(function(a) {
+      return posts[a]
+    })
+  }
 }
 
 db.verifyUser = function(username, password) {
@@ -110,10 +117,10 @@ db.filterPostList = function(filter) {
 
 db.getPost = function(id) {
   var retPost = {}
-  for(var prop in posts[id]){
+  for (var prop in posts[id]) {
     retPost[prop] = posts[id][prop]
   }
-  retPost.comments = retPost.comments.map(function(a){
+  retPost.comments = retPost.comments.map(function(a) {
     return comments[a]
   })
   return retPost
@@ -136,15 +143,15 @@ db.commentUpvote = function(obj) {
 
 db.newComment = function(obj) {
   var commentId = comments.length
-  if(obj.author){
+  if (obj.author) {
     var author = findUserByName(obj.author)
-    if(author){
+    if (author) {
       author.comments.push(commentId)
     }
-    
+
   }
-    posts[obj.id].comments.push(commentId)
-    comments.push({
+  posts[obj.id].comments.push(commentId)
+  comments.push({
     id: commentId,
     author: obj.author || "anonymous",
     text: obj.text || "no content",
@@ -156,12 +163,12 @@ db.newComment = function(obj) {
 
 db.newPost = function(obj) {
   var postId = comments.length
-  if(obj.author){
+  if (obj.author) {
     var author = findUserByName(obj.author)
-    if(author){
+    if (author) {
       author.posts.push(postId)
     }
-    
+
   }
   posts.push({
     id: postId,
