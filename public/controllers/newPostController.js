@@ -1,25 +1,25 @@
-app.factory('newPostFactory', ['$http', 'userFactory', '$routeParams',
-  function($http, userFactory, $routeParams) {
-    var factory = {}
-    factory.newPost = function(obj) {
-      obj.author = userFactory.user.data.username
-      obj.room = $routeParams.roomId
-      $http.post('/newpost', obj)
-    }
-    return factory
-  }
-])
-app.controller('newPostController', ['$scope', 'newPostFactory',
-  function($scope, newPostFactory) {
+app.controller('newPostController', ['$scope', '$http', 'userFactory', '$routeParams',
+  function($scope, $http, userFactory, $routeParams) {
     this.expanded = false
+    this.hovered = false
+    this.isEmpty = function(){
+      return(
+      this.post.content.trim().length===0 &&
+      this.post.title.trim().length===0 &&
+      this.post.tags.trim().length===0
+      )
+    }
 
     this.expand = function(){
       this.expanded = true
     }
 
-    this.toggleExpand = function(){
-      this.expanded = !this.expanded
+    this.hideUnfocusedEmpty = function(){
+      if(this.isEmpty() && !this.hovered){
+        this.expanded = false
+      }
     }
+
 
     var emptyPost = function() {
       return {
@@ -28,10 +28,13 @@ app.controller('newPostController', ['$scope', 'newPostFactory',
         content: ''
       }
     }
+
     this.post = emptyPost()
     this.submitPost = function() {
-      console.log('sending')
-      newPostFactory.newPost(this.post)
+      var obj = this.post
+      obj.author = userFactory.user.data.username
+      obj.room = $routeParams.roomId
+      $http.post('/newpost', obj)
       this.post = emptyPost()
     }
   }

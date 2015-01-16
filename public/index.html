@@ -49,12 +49,11 @@
 
 
         <div ng-controller="newPostController as newPost" class="row">
-          <form ng-submit="newPost.submitPost()" class="form-group">
-            <textarea type="text" ng-model="newPost.post.content" ng-focus="newPost.expand()" class="{{newPost.expanded ? 'form-control' : 'form-control'}}"
-              ng-blur="newPost.post.content.trim() || newPost.toggleExpand()" placeholder="WRITE NEW POST "></textarea>
+          <form class="form-group" ng-submit="newPost.submitPost()" ng-mouseenter="newPost.hovered = true" ng-mouseleave="newPost.hovered = false">
+            <textarea type="text" ng-model="newPost.post.content" class="{{newPost.expanded ? 'form-control' : 'form-control'}}" ng-focus="newPost.expand()" ng-blur="newPost.hideUnfocusedEmpty()" placeholder="WRITE NEW POST "></textarea>
             <div ng-show="newPost.expanded">
-              <input type="text" ng-model="newPost.post.title" placeholder="title" class="form-control" ng-focus="newPost.expand()" />
-              <input type="text" ng-model="newPost.post.tags" placeholder="tags" class="form-control" ng-focus="newPost.expand()" />
+              <input type="text" ng-blur="newPost.hideUnfocusedEmpty()" ng-model="newPost.post.title" placeholder="title" class="form-control" ng-focus="newPost.expand()" />
+              <input type="text" ng-blur="newPost.hideUnfocusedEmpty()" ng-model="newPost.post.tags" placeholder="tags" class="form-control" ng-focus="newPost.expand()" />
               <input type="submit" value="submit" class="btn btn-primary">
             </div>
           </form>

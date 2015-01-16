@@ -4,12 +4,16 @@ var users = [{
   id: 0,
   username: "piotr",
   password: "piotr",
-  info: 'info o userze piotr'
+  info: 'info o userze piotr',
+  comments:[1],
+  posts: [0]
 }, {
   id: 1,
   username: "test",
   password: "test",
-  info: 'info o userze test'
+  info: 'info o userze test',
+  comments:[0],
+  posts: [1]
 }]
 
 var posts = [{
@@ -25,7 +29,7 @@ var posts = [{
   comments: [0]
 }, {
   id: 1,
-  author: "author",
+  author: "test",
   title: "testTile",
   room: "room2",
   tags: "letsmake more",
@@ -36,16 +40,24 @@ var posts = [{
   comments: [1]
 }]
 
+var findUserByName = function(username){
+  for(var user in users){
+    if(users[user].username === username){
+      return users[user]
+    }
+  }
+}
+
 var comments = [{
     id: 0,
-    author: 'rtoip',
+    author: 'test',
     date: Date.now(),
     score: 0,
     upvotes: [],
     text: "will it work?"
   },{
     id: 1,
-    author: 'whoever',
+    author: 'piotr',
     date: Date.now(),
     score: 0,
     upvotes: [],
@@ -53,9 +65,16 @@ var comments = [{
   }]
 
 db.getProfile = function(id) {
+  console.log(id)
       return {
         username: users[id].username,
-        info: users[id].info
+        info: users[id].info,
+        comments: users[id].comments.map(function(a){
+          return comments[a]
+        }),
+        posts: users[id].posts.map(function(a){
+          return posts[a]
+        })
       }
 }
 
@@ -108,7 +127,6 @@ db.getPostList = function() {
 db.postUpvote = function(obj) {
   posts[obj.id].upvotes.push(obj.author)
   posts[obj.id].score += (obj.value > 0) ? 1 : -1
-
 }
 
 db.commentUpvote = function(obj) {
@@ -117,7 +135,14 @@ db.commentUpvote = function(obj) {
 }
 
 db.newComment = function(obj) {
-    var commentId = comments.length
+  var commentId = comments.length
+  if(obj.author){
+    var author = findUserByName(obj.author)
+    if(author){
+      author.comments.push(commentId)
+    }
+    
+  }
     posts[obj.id].comments.push(commentId)
     comments.push({
     id: commentId,
@@ -130,8 +155,16 @@ db.newComment = function(obj) {
 }
 
 db.newPost = function(obj) {
+  var postId = comments.length
+  if(obj.author){
+    var author = findUserByName(obj.author)
+    if(author){
+      author.posts.push(postId)
+    }
+    
+  }
   posts.push({
-    id: posts.length,
+    id: postId,
     author: obj.author || "anonymous",
     room: obj.room || "general",
     title: obj.title || "new post " + (posts.length + 1),

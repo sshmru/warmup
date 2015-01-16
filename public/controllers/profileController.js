@@ -2,6 +2,7 @@ app.controller('profileController', ['$scope', '$routeParams', 'postListFactory'
   this.params = $routeParams
   this.user = {}
   var self = this;
+  this.show  = 'info';
 
     this.getProfile = function(filter) {
       $http.post('/getprofile', filter)
