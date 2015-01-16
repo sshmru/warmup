@@ -162,7 +162,8 @@ db.newComment = function(obj) {
 }
 
 db.newPost = function(obj) {
-  var postId = comments.length
+  console.log(obj)
+  var postId = posts.length
   if (obj.author) {
     var author = findUserByName(obj.author)
     if (author) {
