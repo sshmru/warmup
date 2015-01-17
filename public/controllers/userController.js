@@ -7,13 +7,21 @@ app.factory('userFactory', ['$http',
       }
     }
 
+    if(window.localStorage['username']){
+      factory.user.data.logged = true,
+      factory.user.data.username = window.localStorage['username']
+    }
+
     factory.login = function(data) {
       $http.post('/login', data)
         .success(function(data) {
           factory.user.data = data
+          window.localStorage['username'] = data.username
           console.log(factory.user.data)
         })
     }
+
+
 
     return factory
   }

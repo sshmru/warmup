@@ -2,7 +2,7 @@ reddit like forum built in angular on nodejs
 websocket based real time comment updates to all users
 
 
-not connected to database, fake authentcation(no session)
+not connected to database
 
 
 1)npm install
