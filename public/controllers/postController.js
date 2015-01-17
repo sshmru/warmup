@@ -2,13 +2,14 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
   function($scope, $routeParams, $http, userFactory, socket, postListFactory, $sce) {
     postListFactory.data.navbar = true
     this.expandComment = false
+    postListFactory.getPosts({room: $routeParams.roomId})
     this.params = $routeParams
     this.currentPost = {}
     var self = this;
 
     socket.on('updatePost', function(postId) {
-      if(Number(postId)===Number(self.params.postId)){
         console.log('updating comments')
+      if(Number(postId)===Number(self.params.postId)){
         self.getPost({
           id: Number(self.params.postId)
         })
@@ -39,7 +40,6 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
     this.submitComment = function() {
       var data = {
         id: self.currentPost.id,
-        author: userFactory.user.data.username,
         text: self.newComment
       }
       $http.post('/newcomment', data)
@@ -55,7 +55,6 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
       var data = {
         id: self.currentPost.id,
         value: value,
-        author: userFactory.user.data.username,
       }
       $http.post('/upvotepost', data)
     }
@@ -65,7 +64,6 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
         commentId: commentId,
         id: self.currentPost.id,
         value: value,
-        author: userFactory.user.data.username,
       }
       $http.post('/upvotecomment', data)
     }

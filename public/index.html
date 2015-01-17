@@ -14,7 +14,7 @@
 
 <body ng-app="myApp">
 
-  <header class="navbar navbar-static-top">
+  <header class="page-header">
   </header>
 
   <div class="container">
@@ -50,11 +50,9 @@
 
       <div class="container col-sm-3">
         <nav>
-          <div ng-controller="userController as userCtrl" class="navbar-form navbar-right">
+          <div ng-controller="userController as userCtrl" class="">
             <div ng-show="userCtrl.user.data.logged">
-              <div>
                 Logged as: {{userCtrl.user.data.username}}
-              </div>
             </div>
             <div ng-show="!userCtrl.user.data.logged" class="form-group">
               <form ng-submit="userCtrl.login(userCtrl.loginData)">

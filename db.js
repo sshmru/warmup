@@ -85,6 +85,24 @@ db.getProfile = function(id) {
   }
 }
 
+db.findByUsername = function(username, fn) {
+  for (var i = 0, len = users.length; i < len; i++) {
+    var user = users[i];
+    if (user.username === username) {
+      return fn(null,user);
+    }
+  }
+  return fn(null, null);
+}
+
+db.findById = function(id, fn) {
+  if (users[id]) {
+    fn(null, users[id]);
+  } else {
+    fn(new Error('User ' + id + ' does not exist'));
+  }
+}
+
 db.verifyUser = function(username, password) {
   for (var i = 0; i < users.length - 1; i++) {
     var user = users[i]
@@ -110,7 +128,6 @@ db.filterPostList = function(filter) {
         return 0
       }
     }
-
     return true
   });
 }
@@ -131,29 +148,29 @@ db.getPostList = function() {
 }
 
 
-db.postUpvote = function(obj) {
-  posts[obj.id].upvotes.push(obj.author)
+db.postUpvote = function(obj, username) {
+  posts[obj.id].upvotes.push(username)
   posts[obj.id].score += (obj.value > 0) ? 1 : -1
 }
 
-db.commentUpvote = function(obj) {
-  comments[obj.commentId].upvotes.push(obj.author)
+db.commentUpvote = function(obj, username) {
+  comments[obj.commentId].upvotes.push(username)
   comments[obj.commentId].score += (obj.value > 0) ? 1 : -1
 }
 
-db.newComment = function(obj) {
+db.newComment = function(obj, username) {
   var commentId = comments.length
-  if (obj.author) {
-    var author = findUserByName(obj.author)
-    if (author) {
-      author.comments.push(commentId)
+  if (username) {
+    var user = findUserByName(obj.username)
+    if (user) {
+      user.comments.push(commentId)
     }
 
   }
   posts[obj.id].comments.push(commentId)
   comments.push({
     id: commentId,
-    author: obj.author || "anonymous",
+    author: username || "anonymous",
     text: obj.text || "no content",
     date: Date.now(),
     score: 0,
@@ -161,19 +178,18 @@ db.newComment = function(obj) {
   })
 }
 
-db.newPost = function(obj) {
-  console.log(obj)
+db.newPost = function(obj, username) {
   var postId = posts.length
-  if (obj.author) {
-    var author = findUserByName(obj.author)
-    if (author) {
-      author.posts.push(postId)
+  if (username) {
+    var user = findUserByName(obj.username)
+    if (user) {
+      user.posts.push(postId)
     }
 
   }
   posts.push({
     id: postId,
-    author: obj.author || "anonymous",
+    author: username || "anonymous",
     room: obj.room || "general",
     title: obj.title || "new post " + (posts.length + 1),
     tags: obj.tags || "",

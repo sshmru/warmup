@@ -1,7 +1,7 @@
 var express = require('express')
 
 
-module.exports = function(app, db, socket, rootPath) {
+module.exports = function(app, db, socket, rootPath, passport) {
   var router = express.Router()
 
 
@@ -22,50 +22,65 @@ module.exports = function(app, db, socket, rootPath) {
   })
 
   router.post('/posts', function(req, res) {
-    if(Object.keys(req.body).length > 0){
+    if (Object.keys(req.body).length > 0) {
       var posts = db.filterPostList(req.body)
-    }else{
+    } else {
       var posts = db.getPostList()
     }
     res.send(posts)
   })
 
   router.post('/newcomment', function(req, res) {
-      console.log(req.body)
-    if(typeof req.body.id  === 'number'){
-      db.newComment(req.body)
+    console.log('newcomment')
+    console.log(req.body)
+    if (typeof req.body.id === 'number') {
+      db.newComment(req.body, (req.user)?req.user.username:'')
       socket.updatePost(req.body.id)
       res.send('ok')
-    }else{
+    } else {
       res.send('no post id')
     }
   })
 
   router.post('/newpost', function(req, res) {
-    db.newPost(req.body)
+    console.log('newPost')
+    console.log(req)
+    db.newPost(req.body, (req.user)?req.user.username:'')
     socket.updateList()
     res.send('ok')
   })
 
   router.post('/upvotepost', function(req, res) {
-    db.postUpvote(req.body)
+    db.postUpvote(req.body, (req.user)?req.user.username:'')
     socket.updateList()
     socket.updatePost(req.body.id)
     res.send('ok')
   })
 
   router.post('/upvotecomment', function(req, res) {
-    db.commentUpvote(req.body)
+    db.commentUpvote(req.body, (req.user)?req.user.username:'')
     socket.updatePost(req.body.id)
     res.send('ok')
   })
 
-  router.post('/login', function(req, res) {
-    console.log(req.body)
-    var result = db.verifyUser(req.body.username, req.body.password)
-    console.log(result)
-    res.send(result)
-  })
+  router.post('/login',
+    passport.authenticate('local'),
+    function(req, res) {
+      console.log('USERNAME: ' + (req.user.username));
+      console.log(req.body)
+      if (req.user.username) {
+        res.send({
+          username: req.user.username,
+          logged: true
+        })
+      } else {
+        console.log('false auth')
+        res.send({
+          logged: false
+        })
+      }
+
+    })
 
   router.get('*', function(req, res) {
     res.sendFile(rootPath + '/public/index.html')

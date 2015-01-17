@@ -1,15 +1,8 @@
 <article class="hero-unit row">
-  <div class="col-sm-2 btn-group-vertical">
-    <div>
-      <div>
-        <button class="btn btn-block btn-default" ng-click="profileCtrl.show = 'info'">info</button>
-      </div>
-      <div>
-        <button class="btn btn-block btn-default" ng-click="profileCtrl.show = 'posts'">posts</button>
-      </div>
-      <div>
-        <button class="btn btn-block btn-default" ng-click="profileCtrl.show = 'comments'">comments</button>
-      </div>
+  <div class="col-sm-2 list-group">
+        <button class="{{profileCtrl.show === 'info' ? 'active' : ''}} list-group-item btn btn-block btn-default" ng-click="profileCtrl.show = 'info'">info</button>
+        <button class="{{profileCtrl.show === 'posts' ? 'active' : ''}} list-group-item  btn btn-block btn-default" ng-click="profileCtrl.show = 'posts'">posts</button>
+        <button class="{{profileCtrl.show === 'comments' ? 'active' : ''}} list-group-item  btn btn-block btn-default" ng-click="profileCtrl.show = 'comments'">comments</button>
   </div>
   </div>
 

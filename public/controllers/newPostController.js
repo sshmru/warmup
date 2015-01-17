@@ -32,7 +32,6 @@ app.controller('newPostController', ['$scope', '$http', 'userFactory', '$routePa
     this.post = emptyPost()
     this.submitPost = function() {
       var obj = this.post
-      obj.author = userFactory.user.data.username
       obj.room = $routeParams.roomId
       $http.post('/newpost', obj)
       this.post = emptyPost()
