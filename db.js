@@ -147,6 +147,13 @@ db.getPostList = function() {
   return posts;
 }
 
+db.editPost = function(obj, username){
+  if(posts[obj.id].author === username){
+    posts[obj.id].content = obj.content
+    posts[obj.id].updated = Date.now()
+  }
+}
+
 
 db.postUpvote = function(obj, username) {
   posts[obj.id].upvotes.push(username)

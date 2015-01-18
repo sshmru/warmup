@@ -1,4 +1,4 @@
-<article class="hero-unit row">
+<div class="hero-unit row">
   <div class="col-sm-2 text-center">
     <p>
       <strong> {{((postCtrl.currentPost.score >= 0) ? '+' : '') + postCtrl.currentPost.score}} </strong>
@@ -12,9 +12,15 @@
     <h2>{{postCtrl.currentPost.title}}</h1>
       <h4>By: <a ng-href="/u/{{postCtrl.currentPost.author}}">{{postCtrl.currentPost.author}}</a> <small>{{postCtrl.currentPost.updated | date}}</small></h4>
       <hr/>
-      <p linkify="postCtrl.currentPost.content"></p>
+      <article ng-show="!postCtrl.editMode" linkify="postCtrl.currentPost.content"></article>
+      <form class="form-group" ng-show="postCtrl.userData.username === postCtrl.currentPost.author">
+      <textarea ng-show="postCtrl.editMode" ng-model="postCtrl.currentPost.newContent" class='form-control'></textarea>
+      <button ng-click="postCtrl.startEdit()" class="btn btn-default" class='form-control'>Edit</button>
+      <button ng-click="postCtrl.cancelEdit()" class="btn btn-default" class='form-control'>Cancel</button>
+      <button ng-show="postCtrl.editMode" ng-click="postCtrl.saveEdit()" class="btn btn-default" class='form-control'>Save</button>
+      </form>
     </div>
-</article>
+</div>
 
   <div class="">
     <h4>Comments:</h4>

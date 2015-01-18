@@ -1,11 +1,30 @@
 app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactory', 'socket', 'postListFactory', '$sce',
   function($scope, $routeParams, $http, userFactory, socket, postListFactory, $sce) {
+    var self = this;
     postListFactory.data.navbar = true
+    this.userData = userFactory.user.data
     this.expandComment = false
     postListFactory.getPosts({room: $routeParams.roomId})
     this.params = $routeParams
     this.currentPost = {}
-    var self = this;
+    this.editMode = false
+
+    this.startEdit = function(){
+      this.currentPost.newContent = this.currentPost.content
+      this.editMode = true
+    }
+    this.cancelEdit = function(){
+        this.editMode = false
+    }
+    this.saveEdit = function(){
+      $http.post('/editpost', {
+        id: Number(self.params.postId),
+        content : self.currentPost.newContent
+      })
+      this.currentPost.content = this.currentPost.newContent
+      this.editMode = false
+    }
+
 
     socket.on('updatePost', function(postId) {
         console.log('updating comments')
@@ -29,8 +48,10 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
       $http.post('/getpost', filter)
         .success(function(data) {
           self.currentPost = data
+
         })
     }
+
 
     this.getPost({
       id: Number(this.params.postId)

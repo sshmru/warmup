@@ -4,6 +4,12 @@ var express = require('express')
 module.exports = function(app, db, socket, rootPath, passport) {
   var router = express.Router()
 
+  var ensureAuthenticated = function(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/');
+  }
 
   router.get('/r/*', function(req, res) {
     res.sendFile(rootPath + '/public/index.html')
@@ -34,7 +40,7 @@ module.exports = function(app, db, socket, rootPath, passport) {
     console.log('newcomment')
     console.log(req.body)
     if (typeof req.body.id === 'number') {
-      db.newComment(req.body, (req.user)?req.user.username:'')
+      db.newComment(req.body, (req.user) ? req.user.username : '')
       socket.updatePost(req.body.id)
       res.send('ok')
     } else {
@@ -45,23 +51,34 @@ module.exports = function(app, db, socket, rootPath, passport) {
   router.post('/newpost', function(req, res) {
     console.log('newPost')
     console.log(req)
-    db.newPost(req.body, (req.user)?req.user.username:'')
+    db.newPost(req.body, (req.user) ? req.user.username : '')
     socket.updateList()
     res.send('ok')
   })
 
   router.post('/upvotepost', function(req, res) {
-    db.postUpvote(req.body, (req.user)?req.user.username:'')
+    db.postUpvote(req.body, (req.user) ? req.user.username : '')
     socket.updateList()
     socket.updatePost(req.body.id)
     res.send('ok')
   })
 
   router.post('/upvotecomment', function(req, res) {
-    db.commentUpvote(req.body, (req.user)?req.user.username:'')
+    db.commentUpvote(req.body, (req.user) ? req.user.username : '')
     socket.updatePost(req.body.id)
     res.send('ok')
   })
+
+  router.post('/editpost', ensureAuthenticated, function(req, res) {
+    console.log(req.body)
+    db.editPost(req.body, req.user.username)
+    res.send('ok')
+  })
+
+  app.get('/logout', function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
+  });
 
   router.post('/login',
     passport.authenticate('local'),

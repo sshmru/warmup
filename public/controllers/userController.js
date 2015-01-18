@@ -7,18 +7,24 @@ app.factory('userFactory', ['$http',
       }
     }
 
-    if(window.localStorage['username']){
+    if (window.sessionStorage['username']) {
       factory.user.data.logged = true,
-      factory.user.data.username = window.localStorage['username']
+        factory.user.data.username = window.sessionStorage['username']
     }
 
     factory.login = function(data) {
       $http.post('/login', data)
         .success(function(data) {
           factory.user.data = data
-          window.localStorage['username'] = data.username
+          window.sessionStorage['username'] = data.username
           console.log(factory.user.data)
         })
+    }
+
+    factory.logout = function() {
+      window.sessionStorage.removeItem('username')
+      factory.user.data = {logged: false}
+      $http.get('/logout',{})
     }
 
 
@@ -26,11 +32,14 @@ app.factory('userFactory', ['$http',
     return factory
   }
 ])
-app.controller('userController', ['$scope', 'userFactory' ,function($scope, userFactory){
-  this.user = userFactory.user
-  this.loginData = {}
-  this.login = function(loginData){
-    userFactory.login(loginData)
+app.controller('userController', ['$scope', 'userFactory',
+  function($scope, userFactory) {
+    this.user = userFactory.user
     this.loginData = {}
+    this.logout = userFactory.logout
+    this.login = function(loginData) {
+      userFactory.login(loginData)
+      this.loginData = {}
+    }
   }
-}])
+])
