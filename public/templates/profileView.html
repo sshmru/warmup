@@ -10,7 +10,12 @@
   <div class="col-sm-10">
     <div ng-show="profileCtrl.show === 'info'" class="well">
       <h1>{{profileCtrl.user.username}}</h1>
-      <p linkify="profileCtrl.user.info"></p>
+      <article ng-show="!profileCtrl.editMode" linkify="profileCtrl.user.info"></article>
+      <form class="form-group" ng-show="profileCtrl.userData.username === profileCtrl.user.username">
+      <textarea ng-show="profileCtrl.editMode" ng-model="profileCtrl.user.newInfo" class='form-control'></textarea>
+      <button ng-click="profileCtrl.startEdit()" class="btn btn-default">Edit</button>
+      <button ng-click="profileCtrl.cancelEdit()" ng-show="profileCtrl.editMode"  class="btn btn-default">Cancel</button>
+      <button ng-show="profileCtrl.editMode" ng-click="profileCtrl.saveEdit()" class="btn btn-default">Save</button>
     </div>
 
     <div ng-show="profileCtrl.show === 'posts'">

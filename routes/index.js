@@ -27,6 +27,12 @@ module.exports = function(app, db, socket, rootPath, passport) {
     res.send(db.getProfile(req.body.id))
   })
 
+  router.post('/editProfile',ensureAuthenticated, function(req, res) {
+    console.log('editProfil')
+    console.log(req.body)
+    db.editProfile(req.body, req.user.username)
+  })
+
   router.post('/posts', function(req, res) {
     if (Object.keys(req.body).length > 0) {
       var posts = db.filterPostList(req.body)
@@ -50,7 +56,7 @@ module.exports = function(app, db, socket, rootPath, passport) {
 
   router.post('/newpost', function(req, res) {
     console.log('newPost')
-    console.log(req)
+    console.log(req.body)
     db.newPost(req.body, (req.user) ? req.user.username : '')
     socket.updateList()
     res.send('ok')
@@ -70,12 +76,15 @@ module.exports = function(app, db, socket, rootPath, passport) {
   })
 
   router.post('/editpost', ensureAuthenticated, function(req, res) {
+    console.log('editPost')
     console.log(req.body)
     db.editPost(req.body, req.user.username)
     res.send('ok')
   })
 
   app.get('/logout', function(req, res) {
+    console.log('logout')
+    console.log(req.user.username)
     req.session.destroy();
     res.redirect('/');
   });

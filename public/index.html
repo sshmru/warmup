@@ -52,8 +52,8 @@
         <nav>
           <div ng-controller="userController as userCtrl" class="">
             <div ng-show="userCtrl.user.data.logged">
-                Logged as: {{userCtrl.user.data.username}}
-                <a ng-href="/logout" ng-click="userCtrl.logout()" class=""> Logout </a>
+              <p>Logged as:<a ng-href="/u/{{userCtrl.user.data.username}}"> {{userCtrl.user.data.username}}</a></p>
+              <a ng-href="/logout" ng-click="userCtrl.logout()" class=""> Logout </a>
             </div>
             <div ng-show="!userCtrl.user.data.logged" class="form-group">
               <form ng-submit="userCtrl.login(userCtrl.loginData)">
@@ -65,8 +65,10 @@
           </div>
         </nav>
 
+        <hr/>
+
         <nav ng-controller="postListController as postList" ng-show="postList.data.navbar">
-          <ul>
+          <ul class="list-unstyled">
             <li ng-repeat="post in postList.list.data | orderBy:'-updated'">
               <a ng-href="r/{{post.room}}/{{post.id}}">{{(post.score >= 0 ? '+' : '') + post.score + ' ' + post.title}}</a>
             </li>

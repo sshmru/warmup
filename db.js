@@ -67,7 +67,7 @@ var comments = [{
 db.getProfile = function(id) {
   var user = {}
   if (isNaN(Number(id))) {
-    user = findUserByName(id)
+    user = findUserByName(id)//do not confuse with db.findByUsername
   } else if (users[id]) {
     user = users[id]
   } else {
@@ -85,6 +85,12 @@ db.getProfile = function(id) {
   }
 }
 
+db.editProfile = function(obj, username){
+  user = findUserByName(username)//do not confuse with db.findByUsername
+  user.info = obj.info
+}
+
+//used by passport only
 db.findByUsername = function(username, fn) {
   for (var i = 0, len = users.length; i < len; i++) {
     var user = users[i];
@@ -95,6 +101,7 @@ db.findByUsername = function(username, fn) {
   return fn(null, null);
 }
 
+//used by passport only
 db.findById = function(id, fn) {
   if (users[id]) {
     fn(null, users[id]);
@@ -103,6 +110,7 @@ db.findById = function(id, fn) {
   }
 }
 
+//not in use, replaced by passport
 db.verifyUser = function(username, password) {
   for (var i = 0; i < users.length - 1; i++) {
     var user = users[i]

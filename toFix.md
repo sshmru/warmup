@@ -1,6 +1,7 @@
 [ ] rename postcontroller -> current post
 
-[ ] socket based updates might go rampage on huge amounts of user!!
+[ ] socket based updates might go rampage on huge amounts of users!!
+
 [ ] rename updated to date, its confusing
 
 [ ] rename upvotes property, its array of who vote d
@@ -11,6 +12,8 @@
 
 [ ] side and main post lists propably shoudl be separate
 
+[ ] side list is inconsistent, either fix it or inform user whats the filter
+
 [ ] post and comment entities propably should be sinle directive across the board
 
 [ ] db.js doesnt follow callback pattern, might fail async calls when real db connected
@@ -19,6 +22,8 @@
 
 [ ] meaningful responses from db
 
-[+] editing doesnt work, propably due to linkify function
-
 [ ] newlines and word-wrap in text content
+
+[ ] db.js is just terrible, should be reworked as whole thing
+
+[ ] server side router is writen inconsequently and inconsistently
