@@ -1,14 +1,14 @@
-<article class="hero-unit row">
+<article class="row">
   <div class="col-sm-2 list-group">
-        <button class="{{profileCtrl.show === 'info' ? 'active' : ''}} list-group-item btn btn-block btn-default" ng-click="profileCtrl.show = 'info'">info</button>
-        <button class="{{profileCtrl.show === 'posts' ? 'active' : ''}} list-group-item  btn btn-block btn-default" ng-click="profileCtrl.show = 'posts'">posts</button>
-        <button class="{{profileCtrl.show === 'comments' ? 'active' : ''}} list-group-item  btn btn-block btn-default" ng-click="profileCtrl.show = 'comments'">comments</button>
+        <span class="{{profileCtrl.show === 'info' ? 'active' : ''}} list-group-item " ng-click="profileCtrl.show = 'info'">info</span>
+        <span class="{{profileCtrl.show === 'posts' ? 'active' : ''}} list-group-item" ng-click="profileCtrl.show = 'posts'">posts</span>
+        <span class="{{profileCtrl.show === 'comments' ? 'active' : ''}} list-group-item " ng-click="profileCtrl.show = 'comments'">comments</span>
   </div>
   </div>
 
 
-  <div class="col-sm-10">
-    <div ng-show="profileCtrl.show === 'info'" class="well">
+  <div class="col-sm-10 container-fluid">
+    <div ng-show="profileCtrl.show === 'info'" class="well row">
       <h1>{{profileCtrl.user.username}}</h1>
       <article ng-show="!profileCtrl.editMode" linkify="profileCtrl.user.info"></article>
       <form class="form-group" ng-show="profileCtrl.userData.username === profileCtrl.user.username">

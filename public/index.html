@@ -7,12 +7,15 @@
   <title></title>
   <link rel="stylesheet" href="/styles/style.css">
   <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/sandstone/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/darkly/bootstrap.min.css">
   <script src="/components/angular/angular.min.js"></script>
   <script src="/components/angular-route/angular-route.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" class="darkly">
 
   <header class="page-header">
   </header>
@@ -25,20 +28,24 @@
 
 
         <div ng-controller="newPostController as newPost" class="row">
-          <form class="form-group" 
+          <form class="" 
             ng-submit="newPost.submitPost()" 
             ng-mouseenter="newPost.hovered = true" 
             ng-mouseleave="newPost.hovered = false">
-            <textarea type="text" 
-              ng-model="newPost.post.content"  
-              ng-focus="newPost.expand()" 
-              ng-blur="newPost.hideUnfocusedEmpty()"  
-              rows="{{newPost.expanded ? 5 : 1}}" 
-              class="{{newPost.expanded ? 'form-control' : 'form-control'}}" 
-              placeholder="WRITE NEW POST "></textarea>
-            <div ng-show="newPost.expanded">
-              <input type="text" ng-blur="newPost.hideUnfocusedEmpty()" ng-model="newPost.post.title" placeholder="title" class="form-control" ng-focus="newPost.expand()" />
-              <input type="text" ng-blur="newPost.hideUnfocusedEmpty()" ng-model="newPost.post.tags" placeholder="tags" class="form-control" ng-focus="newPost.expand()" />
+            <div class="form-group"><textarea type="text" 
+                ng-model="newPost.post.content"  
+                ng-focus="newPost.expand()" 
+                ng-blur="newPost.hideUnfocusedEmpty()"  
+                rows="{{newPost.expanded ? 5 : 1}}" 
+                class="{{newPost.expanded ? 'form-control' : 'form-control'}}" 
+                placeholder="WRITE NEW POST "></textarea></div>
+            <div ng-show="newPost.expanded" class="">
+              <div class="form-group">
+                <input type="text" ng-blur="newPost.hideUnfocusedEmpty()" ng-model="newPost.post.title" placeholder="title" class="form-control" ng-focus="newPost.expand()" />
+              </div>
+              <div class="form-group">
+                <input type="text" ng-blur="newPost.hideUnfocusedEmpty()" ng-model="newPost.post.tags" placeholder="tags" class="form-control" ng-focus="newPost.expand()" />
+              </div>
               <input type="submit" value="submit" class="btn btn-primary">
             </div>
           </form>
@@ -57,9 +64,9 @@
             </div>
             <div ng-show="!userCtrl.user.data.logged" class="form-group">
               <form ng-submit="userCtrl.login(userCtrl.loginData)">
-                <input type="text" ng-model="userCtrl.loginData.username" placeholder="username" class="form-control" />
-                <input type="password" ng-model="userCtrl.loginData.password" placeholder="password" class="form-control" />
-                <input type="submit" value="login" class="btn btn-primary">
+                <div class="form-group"><input type="text" ng-model="userCtrl.loginData.username" placeholder="username" class="form-control" /></div>
+                <div class="form-group"><input type="password" ng-model="userCtrl.loginData.password" placeholder="password" class="form-control" /></div>
+                <input type="submit" value="login" class="btn btn-primary"/>
               </form>
             </div>
           </div>
