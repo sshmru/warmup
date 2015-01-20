@@ -1,52 +1,53 @@
 <div class="hero-unit row">
   <div class="col-sm-2 text-center">
     <p class='h2'>
-       {{((postCtrl.currentPost.score >= 0) ? '+' : '') + postCtrl.currentPost.score}} 
+      {{((postCtrl.currentPost.score >= 0) ? '+' : '') + postCtrl.currentPost.score}}
     </p>
     <div class="btn-group-vertical">
       <button ng-click="postCtrl.upvotePost(1)" class="btn btn-success">upvote</button>
       <button ng-click="postCtrl.upvotePost(-1)" class="btn btn-danger">downvote</button>
     </div>
   </div>
-  <div class="col-sm-10">
-    <h2>{{postCtrl.currentPost.title}}</h1>
-      <h4>By: <a ng-href="/u/{{postCtrl.currentPost.author}}">{{postCtrl.currentPost.author}}</a> <small>{{postCtrl.currentPost.updated | date}}</small></h4>
-      <hr/>
-      <article ng-show="!postCtrl.editMode" linkify="postCtrl.currentPost.content"></article>
-      <form class="form-group" ng-show="postCtrl.userData.username === postCtrl.currentPost.author">
-      <textarea ng-show="postCtrl.editMode" ng-model="postCtrl.currentPost.newContent" class='form-control'></textarea>
-      <button ng-click="postCtrl.startEdit()" class="btn btn-default">Edit</button>
-      <button ng-click="postCtrl.cancelEdit()" ng-show="postCtrl.editMode"  class="btn btn-default">Cancel</button>
-      <button ng-show="postCtrl.editMode" ng-click="postCtrl.saveEdit()" class="btn btn-default">Save</button>
-      </form>
-    </div>
-</div>
-
-  <div class="">
-    <h4>Comments:</h4>
+  <div class="col-sm-10 container-fluid">
     <div class="row">
-      <form ng-submit="postCtrl.submitComment()" class="form-group ">
-        <textarea
-          ng-focus="postCtrl.expandComment = true"
-          ng-blur="postCtrl.newComment.trim() || (postCtrl.expandComment = false)"
-          rows="{{postCtrl.expandComment ? 5 : 1}}"
-          type="text" ng-model="postCtrl.newComment" placeholder="comment" class="form-control"></textarea>
-        <input ng-show="postCtrl.expandComment" type="submit" value="submit" class="btn btn-primary">
-      </form>
-    </div>
-
-    <div ng-repeat="comment in postCtrl.currentPost.comments" class="row panel panel-defaul
-      t">
-      <div class="col-sm-2 text-center">
-        <p class="h4">{{((comment.score >= 0) ? '+' : '') + comment.score}}</p>
-        <div class="btn-group-vertical">
-          <button ng-click="postCtrl.upvoteComment(comment.id, 1)" class="btn btn-success">upvote</button>
-          <button ng-click="postCtrl.upvoteComment(comment.id, -1)" class="btn  btn-danger">downvote</button>
-        </div>
+    
+    <h1 class="h2">{{postCtrl.currentPost.title}}</h1>
+    <h4>By: <a ng-href="/u/{{postCtrl.currentPost.author}}">{{postCtrl.currentPost.author}}</a> <small>{{postCtrl.currentPost.updated | date}}</small></h4>
+    <hr/>
+    <article ng-show="!postCtrl.editMode" linkify="postCtrl.currentPost.content"></article>
+    <form class="form-group" ng-show="postCtrl.userData.username === postCtrl.currentPost.author">
+      <textarea ng-show="postCtrl.editMode" ng-model="postCtrl.currentPost.newContent" class='form-control'></textarea>
+      <div class="form-group pull-right">
+        <button ng-click="postCtrl.startEdit()" class="btn btn-default">Edit</button>
+        <button ng-click="postCtrl.cancelEdit()" ng-show="postCtrl.editMode" class="btn btn-default">Cancel</button>
+        <button ng-show="postCtrl.editMode" ng-click="postCtrl.saveEdit()" class="btn btn-default">Save</button>
       </div>
-      <div class="col-sm-10 well">
-        <h4>By: <a ng-href="/u/{{comment.author}}">{{comment.author}}</a> <small>{{comment.date | date}}</small></h4>
-        <p>{{comment.text}}</p>
-      </div>
+    </form>
     </div>
   </div>
+</div>
+
+<div class="">
+  <h4>Comments:</h4>
+  <div class="row">
+    <form ng-submit="postCtrl.submitComment()" class="form-group ">
+      <textarea ng-focus="postCtrl.expandComment = true" ng-blur="postCtrl.newComment.trim() || (postCtrl.expandComment = false)" rows="{{postCtrl.expandComment ? 5 : 1}}" type="text" ng-model="postCtrl.newComment" placeholder="comment" class="form-control"></textarea>
+      <input ng-show="postCtrl.expandComment" type="submit" value="submit" class="btn btn-primary">
+    </form>
+  </div>
+
+  <div ng-repeat="comment in postCtrl.currentPost.comments" class="row panel panel-defaul
+      t">
+    <div class="col-sm-2 text-center">
+      <p class="h4">{{((comment.score >= 0) ? '+' : '') + comment.score}}</p>
+      <div class="btn-group-vertical">
+        <button ng-click="postCtrl.upvoteComment(comment.id, 1)" class="btn btn-success">upvote</button>
+        <button ng-click="postCtrl.upvoteComment(comment.id, -1)" class="btn  btn-danger">downvote</button>
+      </div>
+    </div>
+    <div class="col-sm-10 well">
+      <h4>By: <a ng-href="/u/{{comment.author}}">{{comment.author}}</a> <small>{{comment.date | date}}</small></h4>
+      <p>{{comment.text}}</p>
+    </div>
+  </div>
+</div>

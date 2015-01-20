@@ -13,20 +13,22 @@
       <article ng-show="!profileCtrl.editMode" linkify="profileCtrl.user.info"></article>
       <form class="form-group" ng-show="profileCtrl.userData.username === profileCtrl.user.username">
       <textarea ng-show="profileCtrl.editMode" ng-model="profileCtrl.user.newInfo" class='form-control'></textarea>
+      <div class="form-group pull-right">
       <button ng-click="profileCtrl.startEdit()" class="btn btn-default">Edit</button>
       <button ng-click="profileCtrl.cancelEdit()" ng-show="profileCtrl.editMode"  class="btn btn-default">Cancel</button>
       <button ng-show="profileCtrl.editMode" ng-click="profileCtrl.saveEdit()" class="btn btn-default">Save</button>
+      </div>
     </div>
 
     <div ng-show="profileCtrl.show === 'posts'">
-      <div ng-repeat="post in profileCtrl.user.posts" class="well">
+      <div ng-repeat="post in profileCtrl.user.posts" class="well row">
         <h4>By: {{post.author}} <small>{{post.updated | date}}</small></h4>
         <p>{{post.content}}</p>
       </div>
     </div>
 
     <div ng-show="profileCtrl.show === 'comments'">
-      <div ng-repeat="comment in profileCtrl.user.comments" class="well">
+      <div ng-repeat="comment in profileCtrl.user.comments" class="well row">
         <h4>By: {{comment.author}} <small>{{comment.date | date}}</small></h4>
         <p>{{comment.text}}</p>
       </div>
