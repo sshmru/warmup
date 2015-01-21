@@ -10,19 +10,23 @@
   </div>
   <div class="col-sm-10 container-fluid">
     <div class="row">
-    
-    <h1 class="h2">{{postCtrl.currentPost.title}}</h1>
-    <h4>By: <a ng-href="/u/{{postCtrl.currentPost.author}}">{{postCtrl.currentPost.author}}</a> <small>{{postCtrl.currentPost.updated | date}}</small></h4>
-    <hr/>
-    <article ng-show="!postCtrl.editMode" linkify="postCtrl.currentPost.content"></article>
-    <form class="form-group" ng-show="postCtrl.userData.username === postCtrl.currentPost.author">
-      <textarea ng-show="postCtrl.editMode" ng-model="postCtrl.currentPost.newContent" class='form-control'></textarea>
-      <div class="form-group pull-right">
-        <button ng-click="postCtrl.startEdit()" class="btn btn-default">Edit</button>
-        <button ng-click="postCtrl.cancelEdit()" ng-show="postCtrl.editMode" class="btn btn-default">Cancel</button>
-        <button ng-show="postCtrl.editMode" ng-click="postCtrl.saveEdit()" class="btn btn-default">Save</button>
-      </div>
-    </form>
+
+      <h1 class="h2">{{postCtrl.currentPost.title}}</h1>
+      <h4>By: <a ng-href="/u/{{postCtrl.currentPost.author}}">{{postCtrl.currentPost.author}}</a> <small>{{postCtrl.currentPost.updated | date}}</small></h4>
+      <hr/>
+      <article class="" ng-show="!postCtrl.editMode" linkify="postCtrl.currentPost.content"></article>
+      <hr/>
+      <p class="text-muted">
+        <span ng-repeat="tag in postCtrl.currentPost.tags"> #{{tag}}{{$last ? '' : ','}}</span>
+      </p>
+      <form class="form-group" ng-show="postCtrl.userData.username === postCtrl.currentPost.author">
+        <textarea ng-show="postCtrl.editMode" ng-model="postCtrl.currentPost.newContent" class='form-control'></textarea>
+        <div class="form-group pull-right">
+          <button ng-click="postCtrl.startEdit()" class="btn btn-default">Edit</button>
+          <button ng-click="postCtrl.cancelEdit()" ng-show="postCtrl.editMode" class="btn btn-default">Cancel</button>
+          <button ng-show="postCtrl.editMode" ng-click="postCtrl.saveEdit()" class="btn btn-default">Save</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

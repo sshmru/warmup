@@ -9,6 +9,7 @@ app.controller('newPostController', ['$scope', '$http', 'userFactory', '$routePa
       this.post.tags.trim().length===0
       )
     }
+    var self = this
 
     this.expand = function(){
       this.expanded = true
@@ -34,6 +35,10 @@ app.controller('newPostController', ['$scope', '$http', 'userFactory', '$routePa
       var obj = this.post
       obj.room = $routeParams.roomId
       $http.post('/newpost', obj)
+        .success(function(){
+          //add jumping to new page here
+          self.expanded = false
+        })
       this.post = emptyPost()
     }
   }

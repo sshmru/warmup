@@ -5,5 +5,8 @@
         </h4>
           <p>{{post.content.substring(0,80)}}</p>
           <p class="text-muted">{{post.updated | date}} -- {{post.author}} </p>
+          <p class="text-muted">
+            <span ng-repeat="tag in post.tags"> #{{tag}}{{$last ? '' : ','}}</span>
+          </p>
       </div>
   </div>
