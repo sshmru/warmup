@@ -77,6 +77,8 @@ db.getProfile = function(id) {
     username: user.username,
     info: user.info,
     comments: user.comments.map(function(a) {
+      console.log(comments)
+      console.log(a)
       return comments[a]
     }),
     posts: user.posts.map(function(a) {
@@ -131,7 +133,7 @@ db.filterPostList = function(filter) {
   return posts.filter(function(post) {
     for (var item in filter) {
       if (item === 'room' && filter[item] === 'general') {
-
+        //room general gets contents of all rooms
       } else if (filter.hasOwnProperty(item) && post[item] !== filter[item]) {
         return 0
       }
@@ -176,13 +178,12 @@ db.commentUpvote = function(obj, username) {
 db.newComment = function(obj, username) {
   var commentId = comments.length
   if (username) {
-    var user = findUserByName(obj.username)
+    var user = findUserByName(username)
     if (user) {
       user.comments.push(commentId)
     }
-
   }
-  posts[obj.id].comments.push(commentId)
+  posts[obj.postId].comments.push(commentId)
   comments.push({
     id: commentId,
     author: username || "anonymous",
@@ -196,7 +197,7 @@ db.newComment = function(obj, username) {
 db.newPost = function(obj, username) {
   var postId = posts.length
   if (username) {
-    var user = findUserByName(obj.username)
+    var user = findUserByName(username)
     if (user) {
       user.posts.push(postId)
     }

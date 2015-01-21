@@ -27,3 +27,7 @@
 [ ] db.js is just terrible, should be reworked as whole thing
 
 [ ] server side router is writen inconsequently and inconsistently
+
+[ ] !!!linkify function gives iamges full size,might not be recommended to use before having thumbnail mechanic
+
+[ ] !!!posts added in profileView are linked to no room

@@ -24,6 +24,8 @@ module.exports = function(app, db, socket, rootPath, passport) {
   })
 
   router.post('/getprofile', function(req, res) {
+    console.log('getProfile')
+    console.log(req.body)
     res.send(db.getProfile(req.body.id))
   })
 
@@ -34,10 +36,11 @@ module.exports = function(app, db, socket, rootPath, passport) {
   })
 
   router.post('/posts', function(req, res) {
+    var posts = []
     if (Object.keys(req.body).length > 0) {
-      var posts = db.filterPostList(req.body)
+      posts = db.filterPostList(req.body)
     } else {
-      var posts = db.getPostList()
+      posts = db.getPostList()
     }
     res.send(posts)
   })
@@ -45,9 +48,9 @@ module.exports = function(app, db, socket, rootPath, passport) {
   router.post('/newcomment', function(req, res) {
     console.log('newcomment')
     console.log(req.body)
-    if (typeof req.body.id === 'number') {
+    if (typeof req.body.postId === 'number') {
       db.newComment(req.body, (req.user) ? req.user.username : '')
-      socket.updatePost(req.body.id)
+      socket.updatePost(req.body.postId)
       res.send('ok')
     } else {
       res.send('no post id')

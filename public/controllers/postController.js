@@ -60,7 +60,7 @@ app.controller('postController', ['$scope', '$routeParams', '$http', 'userFactor
     this.newComment = ''
     this.submitComment = function() {
       var data = {
-        id: self.currentPost.id,
+        postId: self.currentPost.id,
         text: self.newComment
       }
       $http.post('/newcomment', data)
