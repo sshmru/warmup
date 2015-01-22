@@ -20,6 +20,14 @@
 <body class="darkly">
 
   <header class="page-header">
+    <nav class="nav-static-top nav" ng-controller="roomListController as roomListCtrl">
+      <div class="container">
+      
+      <span ng-repeat="room in roomListCtrl.rooms">
+        <a ng-href="/r/{{room.name}}">{{room.name}}</a>
+      </span>
+      </div>
+    </nav>
   </header>
 
   <div class="container">
@@ -95,6 +103,7 @@
   <script src="controllers/roomController.js"></script>
   <script src="controllers/postController.js"></script>
   <script src="controllers/profileController.js"></script>
+  <script src="controllers/roomListController.js"></script>
   <script src="controllers/postListController.js"></script>
   <script src="controllers/userController.js"></script>
   <script src="directives/linkify.js"></script>

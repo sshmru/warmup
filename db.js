@@ -1,5 +1,13 @@
 var db = {}
 
+var rooms = [{
+  name: 'room1',
+  info: 'room 1 info'
+}, {
+  name: 'room2',
+  info: 'room 2 info'
+}]
+
 var users = [{
   id: 0,
   username: "piotr",
@@ -67,7 +75,7 @@ var comments = [{
 db.getProfile = function(id) {
   var user = {}
   if (isNaN(Number(id))) {
-    user = findUserByName(id)//do not confuse with db.findByUsername
+    user = findUserByName(id) //do not confuse with db.findByUsername
   } else if (users[id]) {
     user = users[id]
   } else {
@@ -87,8 +95,8 @@ db.getProfile = function(id) {
   }
 }
 
-db.editProfile = function(obj, username){
-  user = findUserByName(username)//do not confuse with db.findByUsername
+db.editProfile = function(obj, username) {
+  user = findUserByName(username) //do not confuse with db.findByUsername
   user.info = obj.info
 }
 
@@ -97,7 +105,7 @@ db.findByUsername = function(username, fn) {
   for (var i = 0, len = users.length; i < len; i++) {
     var user = users[i];
     if (user.username === username) {
-      return fn(null,user);
+      return fn(null, user);
     }
   }
   return fn(null, null);
@@ -157,8 +165,12 @@ db.getPostList = function() {
   return posts;
 }
 
-db.editPost = function(obj, username){
-  if(posts[obj.id].author === username){
+db.getRoomList = function() {
+  return rooms;
+}
+
+db.editPost = function(obj, username) {
+  if (posts[obj.id].author === username) {
     posts[obj.id].content = obj.content
     posts[obj.id].updated = Date.now()
   }
@@ -201,14 +213,23 @@ db.newPost = function(obj, username) {
     if (user) {
       user.posts.push(postId)
     }
-
   }
+  if (obj.room && (rooms.filter(function(room) {
+    return room.name === obj.room
+  }).length === 0)) {
+    rooms.push({
+      name: obj.room,
+      info: "custom room"
+    })
+    console.log(rooms)
+  }
+
   posts.push({
     id: postId,
     author: username || "anonymous",
     room: obj.room || "general",
     title: obj.title || "new post " + (posts.length + 1),
-    tags: obj.tags.replace(/[^a-zA-Z #]/g, '').split('#') || [],//#awe, #er-go -> ['awe', 'er-go]
+    tags: obj.tags.replace(/[^a-zA-Z #]/g, '').split('#') || [], //#awe, #er-go -> ['awe', 'er-go]
     content: obj.content || "no content",
     updated: Date.now(),
     score: 0,

@@ -45,6 +45,11 @@ module.exports = function(app, db, socket, rootPath, passport) {
     res.send(posts)
   })
 
+  router.post('/rooms', function(req, res){
+    var rooms = db.getRoomList()
+    res.send(rooms)
+  })
+
   router.post('/newcomment', function(req, res) {
     console.log('newcomment')
     console.log(req.body)
