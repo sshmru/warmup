@@ -16,6 +16,8 @@ app.directive('linkify', function($compile, $sce) {
             var content = (['.jpg', '.png'].indexOf(extension) == -1) ?  url : '<img src="'+ url + '" height="100px" max-width="100px"/>'
             return '<a href="' + url + '">' + content + '</a>'
           })
+          console.log(html)
+          html = html.replace(/\n/g, '<br/>')//adds forces newline characters
           html = $sce.trustAsHtml(html)
           elem.html(html)
           $compile(elem.contents())(scope);

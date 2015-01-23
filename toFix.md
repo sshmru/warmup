@@ -8,8 +8,6 @@
 
 [ ] upvote buttons as reusable component
 
-[ ] new post blur prevents user from setting title before writing 
-
 [ ] side and main post lists propably shoudl be separate
 
 [ ] side list is inconsistent, either fix it or inform user whats the filter
@@ -31,3 +29,9 @@
 [ ] !!!linkify function gives iamges full size,might not be recommended to use before having thumbnail mechanic
 
 [ ] !!!posts added in profileView are linked to no room
+
+[ ] make users suscribe updates in the rooms they visit
+
+[ ] give user the  'suscribed to' list, giving notifications on selected rooms(autosuscribe on login)
+
+[ ] give markdown-like system for posts

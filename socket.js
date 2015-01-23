@@ -8,9 +8,16 @@ exports.socketServer = function(server) {
 
     this.updateList = function(){
       io.sockets.emit('updateList')
+      console.log(io.rooms)
     }
 
     this.updatePost = function(postId){
       io.sockets.emit('updatePost', postId)
     }
+
+    //io.sockets.manager.rooms
+    //io.sockets.manager.roomClients
+    //io.sockets.in(room).emit('uiEvent', {})
+    //socket.get('nickname', function(err, nickname) {});
+    //socket.set('nickname', name);
 };
