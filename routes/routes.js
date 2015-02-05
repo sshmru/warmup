@@ -1,6 +1,10 @@
 var express = require('express')
 
-module.exports = function(app, socket, rootPath, passport) {
+var exists = function(thing) {
+  return typeof thing !== 'undefined'
+}
+
+module.exports = function(app, socket, rootPath, passport, db) {
   var router = express.Router()
 
   //auth middleware
@@ -20,82 +24,152 @@ module.exports = function(app, socket, rootPath, passport) {
     res.sendFile(rootPath + '/public/index.html')
   })
 
+  //to allow async calls for db, provide res.send bound to res as callback
+
   //POSTS
+  router.get('/posts', function(req, res) {
+    var filters = req.body.filters || {}
+    var room = 'general'
+    db.getPosts(room, filters, res.send.bind(res))
+  })
+
   router.get('/posts/:room', function(req, res) {
-    res.send(posts)
+    var filters = req.body.filters || {}
+    var room = req.params.room || 'general'
+    db.getPosts(room, filters, res.send.bind(res))
   })
 
   router.get('/post/:id', function(req, res) {
-    res.send(db.getPost(req.body.id))
+    var id = req.params.id
+    if (exists(id)) {
+      db.getPost(id, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
   router.put('/editPost/:id', ensureAuthenticated, function(req, res) {
-    res.send(db.getPost(req.body.id))
+    var id = req.params.id || req.body.id
+    var user = req.user.username
+    var data = req.body.data
+    if (exists(id) && data && user) {
+      db.editPost(id, data, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
   router.post('/post', function(req, res) {
-    res.send('OK')
+    var user = req.user.username
+    var data = req.body.data
+    if (data) {
+      db.addPost(data, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
-  router.post('/upvotepost/:id', ensureAuthenticated, function(req, res) {
-    db.postUpvote(req.body, (req.user) ? req.user.username : '')
-    res.send('OK')
+  router.post('/votepost/:id', ensureAuthenticated, function(req, res) {
+    var id = req.params.id || req.body.id
+    var user = req.user.username
+    var data = req.body.data
+    if (exists(id) && user && data) {
+      db.votePost(id, data, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
   //COMMENTS
-  router.get('/comments', function(req, res) {
-    res.send(posts)
+  router.get('/comments/:postId', function(req, res) {
+    var filters = res.body.filters || {}
+    var postId = req.params.postId
+    if (exists(postId)) {
+      db.getComments(postId, filters, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
   router.get('/comment/:postId/:id', function(req, res) {
-    res.send(db.getPost(req.body.id))
+    var postId = req.params.postId
+    var id = req.params.id
+    if (exists(id) && exists(postId)) {
+      db.getComment(postId, id, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
   router.put('/editComment/:postId/:id', ensureAuthenticated, function(req, res) {
-    res.send(db.getPost(req.body.id))
+    var postId = req.params.postId
+    var id = req.params.id
+    var user = req.user.username
+    var data = req.body.data
+    if (exists(id) && exists(postId) && user && data) {
+      db.editComment(postId, id, data, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
-  router.post('/comment', function(req, res) {
-    res.send('OK')
+  router.post('/comment/:postId/:id', function(req, res) {
+    var postId = req.params.postId
+    var id = req.params.id
+    var user = req.user.username
+    var data = req.body.data
+    if (exists(id) && exists(postId)) {
+      db.addComment(postId, id, data, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
-  router.post('/upvotecomment/:postId/:id', ensureAuthenticated, function(req, res) {
-    db.postUpvote(req.body, (req.user) ? req.user.username : '')
-    res.send('OK')
+  router.post('/votecomment/:postId/:id', ensureAuthenticated, function(req, res) {
+    var postId = req.params.postId
+    var id = req.params.id
+    var user = req.user.username
+    var data = req.body.data
+    if (exists(id) && exists(postId) && user && data) {
+      db.voteComment(postId, id, data, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
 
   //PROFILES
   router.get('/profile/:idOrName', function(req, res) {
-    res.send(db.getProfile(req.body.id))
+    var idOrName = req.params.idOrName
+    var user = req.user.username
+    var data = req.body.data
+    if (exists(idOrName)) {
+      db.getProfile(idOrName, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
-  router.get('/profile/:idOrName/posts', function(req, res) {
-    res.send(db.getProfile(req.body.id))
-  })
-
-  router.get('/profile/:idOrName/comments', function(req, res) {
-    res.send(db.getProfile(req.body.id))
-  })
-
-  router.get('/profile/:idOrName/info', function(req, res) {
-    res.send(db.getProfile(req.body.id))
-  })
 
   router.put('/editProfile/:idOrName', ensureAuthenticated, function(req, res) {
-    db.editProfile(req.body, req.user.username)
-    res.send('OK')
+    var idOrName = req.params.idOrName
+    var user = req.user.username
+    var data = req.body.data
+    if (exists(idOrName) && user) {
+      db.editProfile(idOrName, data, user, res.send.bind(res))
+    } else {
+      res.send('BAD REQUEST')
+    }
   })
 
   //ROOMS
-  router.post('/rooms', function(req, res) {
-    var rooms = db.getRoomList()
-    res.send(rooms)
+  router.get('/rooms', function(req, res) {
+    db.getRooms(res.send.bind(res))
   })
 
   //LOGIN
 
-  app.get('/logout', function(req, res) {
+  router.post('/logout', function(req, res) {
     req.session.destroy();
     res.redirect('/');
   });

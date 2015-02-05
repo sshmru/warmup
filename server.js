@@ -27,7 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-var routes = require('./routes/routes')(app, socket, __dirname, passport)
+var routes = require('./routes/routes')(app, socket, __dirname, passport, db)
 app.use('/', routes)
 
 var server = app.listen(3000)
