@@ -1,17 +1,1 @@
-##reddit like forum built in angular on nodejs
-##websocket based real time comment updates to all users
-
-
-not connected to database
-
-
-1. npm install
-2. bower install
-3. npm start
-
-made for training purposes
-
-##FOR OLDER COMMITS, MISSING DEPENDENCY IN BOWER
-```
-"angular-route": "~1.3.8",
-```
+Rework/refactor branch 

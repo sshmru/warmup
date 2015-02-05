@@ -6,9 +6,10 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var app = express()
 
-var socket = require('./socket.js');
-var db = require('./db')
-var passport = require('./passport.js')(db);
+var socket = require('./lib/socket.js');
+var db = require('./lib/db')
+var userdb = require('./lib/db')
+var passport = require('./lib/passport.js')(userdb);
 
 
 app.use(bodyParser.json());
@@ -26,7 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-var routes = require('./routes/index')(app, db, socket, __dirname, passport)
+var routes = require('./routes/routes')(app, socket, __dirname, passport)
 app.use('/', routes)
 
 var server = app.listen(3000)
