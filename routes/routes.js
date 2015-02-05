@@ -172,7 +172,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
     var user = (req.user) ? req.user.username : 'Anonymous'
     console.log('user logout:' + user)
     req.session.destroy();
-    res.redirect('/');
+    res.send('OK');
   });
 
   router.post('/login',

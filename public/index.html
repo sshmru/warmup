@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/sandstone/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/darkly/bootstrap.min.css">
+  <script src="/components/angular/angular.min.js"></script>
+  <script src="/components/angular-route/angular-route.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  </script>
+
+</head>
+
+<body class="darkly">
+  <div class="container-fluid body-wrap">
+    <div class="row">
+      <header class="page-header">
+        <nav class="nav-static-top nav">
+          <div class="container">
+
+          </div>
+        </nav>
+      </header>
+
+      <div class="col-sm-9">
+        <div class="row">
+
+        </div>
+      </div>
+
+
+      <div class="container col-sm-3">
+          <div ng-controller="UserCtrl" class="">
+            <div ng-show="userData.logged">
+              <p>Logged as:<a ng-href="/u/{{userData.username}}"> {{userData.username}}</a></p>
+              <a ng-href="" ng-click="logout()" class=""> Logout </a>
+            </div>
+            <div ng-show="!userData.logged" class="form-group">
+              <form ng-submit="login(loginData)">
+                <div class="form-group"><input type="text" ng-model="loginData.username" placeholder="username" class="form-control" /></div>
+                <div class="form-group"><input type="password" ng-model="loginData.password" placeholder="password" class="form-control" /></div>
+                <input type="submit" value="login" class="btn btn-primary"/>
+              </form>
+            </div>
+          </div>
+
+        <hr/>
+
+        <nav >
+          <ul class="list-unstyled">
+            <li>Sit reprehenderit labore cum rem eius porro fuga.</li>
+            <li>Elit nemo praesentium repellendus magni velit excepturi porro.</li>
+            <li>Amet ut cupiditate nesciunt repellendus mollitia? Animi illo.</li>
+            <li>Elit ad quasi ipsam explicabo itaque pariatur distinctio.</li>
+            <li>Dolor illum minus a perferendis fuga? Aliquam corrupti.</li>
+            
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+
+
+
+
+    </div>
+
+
+
+
+  </div>
+  <script src="app.js"></script>
+  <script src="router.js"></script>
+  <script src="js/User.js"></script>
+</body>

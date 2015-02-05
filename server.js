@@ -8,7 +8,7 @@ var app = express()
 
 var socket = require('./lib/socket.js');
 var db = require('./lib/db')
-var userdb = require('./lib/db')
+var userdb = require('./lib/userdb.js')
 var passport = require('./lib/passport.js')(userdb);
 
 
