@@ -29,23 +29,19 @@ module.exports = function(app, socket, rootPath, passport, db) {
   //POSTS
   router.get('/posts', function(req, res) {
     var filters = req.body.filters || {}
-    var room = 'general'
-    db.getPosts(room, filters, res.send.bind(res))
+    filters.room = 'general'
+    db.getPosts(filters, res.send.bind(res))
   })
 
   router.get('/posts/:room', function(req, res) {
     var filters = req.body.filters || {}
-    var room = req.params.room || 'general'
-    db.getPosts(room, filters, res.send.bind(res))
+    filters.room = req.params.room || 'general'
+    db.getPosts(filters, res.send.bind(res))
   })
 
   router.get('/post/:id', function(req, res) {
     var id = req.params.id
-    if (exists(id)) {
-      db.getPost(id, res.send.bind(res))
-    } else {
-      res.send('BAD REQUEST')
-    }
+    db.getPost(id, res.send.bind(res))
   })
 
   router.put('/editpost/:id', ensureAuthenticated, function(req, res) {
@@ -101,28 +97,22 @@ module.exports = function(app, socket, rootPath, passport, db) {
     }
   })
 
-  router.put('/editComment/:postId/:id', ensureAuthenticated, function(req, res) {
-    var postId = req.params.postId
+  router.put('/editComment/:id', ensureAuthenticated, function(req, res) {
     var id = req.params.id
     var user = req.user.username
     var data = req.body.data
-    if (exists(id) && exists(postId) && user && data) {
-      db.editComment(postId, id, data, user, res.send.bind(res))
+    if (exists(id) && user && data) {
+      db.editComment(id, data, user, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')
     }
   })
 
-  router.post('/comment/:postId/:id', function(req, res) {
+  router.post('/comment/:postId', function(req, res) {
     var postId = req.params.postId
-    var id = req.params.id
     var user = (req.user) ? req.user.username : 'Anonymous'
     var data = req.body.data
-    if (exists(id) && exists(postId)) {
-      db.addComment(postId, id, data, user, res.send.bind(res))
-    } else {
-      res.send('BAD REQUEST')
-    }
+    db.addComment(postId, data, user, res.send.bind(res))
   })
 
   router.post('/votecomment/:postId/:id', ensureAuthenticated, function(req, res) {
