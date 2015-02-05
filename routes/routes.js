@@ -9,7 +9,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
 
   //auth middleware
   var ensureAuthenticated = function(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       return next();
     }
     res.redirect('/');
@@ -48,7 +48,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
     }
   })
 
-  router.put('/editPost/:id', ensureAuthenticated, function(req, res) {
+  router.put('/editpost/:id', ensureAuthenticated, function(req, res) {
     var id = req.params.id || req.body.id
     var user = req.user.username
     var data = req.body.data
@@ -60,7 +60,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   })
 
   router.post('/post', function(req, res) {
-    var user = req.user.username
+    var user = (req.user) ? req.user.username : 'Anonymous'
     var data = req.body.data
     if (data) {
       db.addPost(data, user, res.send.bind(res))
@@ -116,7 +116,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   router.post('/comment/:postId/:id', function(req, res) {
     var postId = req.params.postId
     var id = req.params.id
-    var user = req.user.username
+    var user = (req.user) ? req.user.username : 'Anonymous'
     var data = req.body.data
     if (exists(id) && exists(postId)) {
       db.addComment(postId, id, data, user, res.send.bind(res))
@@ -141,10 +141,9 @@ module.exports = function(app, socket, rootPath, passport, db) {
   //PROFILES
   router.get('/profile/:idOrName', function(req, res) {
     var idOrName = req.params.idOrName
-    var user = req.user.username
     var data = req.body.data
     if (exists(idOrName)) {
-      db.getProfile(idOrName, user, res.send.bind(res))
+      db.getProfile(idOrName, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')
     }
@@ -170,6 +169,8 @@ module.exports = function(app, socket, rootPath, passport, db) {
   //LOGIN
 
   router.post('/logout', function(req, res) {
+    var user = (req.user) ? req.user.username : 'Anonymous'
+    console.log('user logout:' + user)
     req.session.destroy();
     res.redirect('/');
   });
