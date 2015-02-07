@@ -29,13 +29,15 @@ module.exports = function(app, socket, rootPath, passport, db) {
   //POSTS
   router.get('/posts', function(req, res) {
     var filters = req.body.filters || {}
-    filters.room = 'general'
+    if(filters.room === 'general'){
+      filters.room = undefined
+    }
     db.getPosts(filters, res.send.bind(res))
   })
 
   router.get('/posts/:room', function(req, res) {
     var filters = req.body.filters || {}
-    filters.room = req.params.room || 'general'
+    filters.room = req.params.room
     db.getPosts(filters, res.send.bind(res))
   })
 
@@ -132,11 +134,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   router.get('/profile/:idOrName', function(req, res) {
     var idOrName = req.params.idOrName
     var data = req.body.data
-    if (exists(idOrName)) {
-      db.getProfile(idOrName, res.send.bind(res))
-    } else {
-      res.send('BAD REQUEST')
-    }
+    db.getProfile(idOrName, res.send.bind(res))
   })
 
 
@@ -144,11 +142,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
     var idOrName = req.params.idOrName
     var user = req.user.username
     var data = req.body.data
-    if (exists(idOrName) && user) {
-      db.editProfile(idOrName, data, user, res.send.bind(res))
-    } else {
-      res.send('BAD REQUEST')
-    }
+    db.editProfile(idOrName, data, user, res.send.bind(res))
   })
 
   //ROOMS

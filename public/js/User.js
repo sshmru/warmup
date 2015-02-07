@@ -13,19 +13,18 @@ app.factory('User', ['$http',
     factory.login = function(data, callback) {
       $http.post('/login', data)
         .success(function(data) {
-          for(var prop in data){
-            factory.data[prop] = data[prop]
-          }
+          factory.data = data
           window.sessionStorage['username'] = data.username
           console.log(factory.data)
-          callback()
+          if(callback){
+            callback(data)
+          }
         })
     }
 
     factory.logout = function() {
       window.sessionStorage.removeItem('username')
-      factory.data.logged = false
-      factory.data.username = ''
+      factory.data = {logged: false}
       $http.post('/logout',{})
     }
 
@@ -37,7 +36,6 @@ app.factory('User', ['$http',
 app.controller('UserCtrl', ['$scope', 'User',
   function($scope, User) {
     $scope.user = User
-    $scope.userData = User.data
     $scope.logout = function(){
       User.logout()
     }

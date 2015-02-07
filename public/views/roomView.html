@@ -1,0 +1,14 @@
+<article class="row">
+
+  <div ng-repeat="post in posts.data | orderBy:'-updated'" class="well">
+    <h4>
+      <a ng-href="r/{{post.room}}/{{post.id}}"> {{post.title}}</a>
+  </h4>
+    <p>{{post.content.substring(0,80)}}</p>
+    <p class="text-muted">{{post.updated | date}} -- {{post.author}}</p>
+    <p class="text-muted">
+      <span ng-repeat="tag in post.tags"> #{{tag}}{{$last ? '' : ','}}</span>
+    </p>
+  </div>
+
+</article>
