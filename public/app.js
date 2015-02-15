@@ -7,3 +7,11 @@ app.factory('socket', function() {
   return socket;
 })
 
+app.run(['$rootScope', 'socket',function($rootScope,socket){
+  //change this one to give information on user current route
+  $rootScope.$on('$routeChangeSuccess', function(){
+    socket.emit('subscribeTo', {
+      room: 'general'
+    })
+  })
+}])

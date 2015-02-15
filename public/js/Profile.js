@@ -5,6 +5,16 @@ app.controller('ProfileCtrl', ['$scope', '$routeParams', '$http', 'User',
     $scope.editMode = false
     $scope.editAllowed = false
 
+    $scope.$watch(
+      function(){
+        return User.data.username
+      }, 
+      function(newVal, oldVal){
+        console.log(newVal)
+        $scope.editAllowed = (newVal === $scope.profile.username)
+      }
+    )
+
     $scope.startEdit = function(){
       $scope.profile.newInfo = $scope.profile.info
       $scope.editMode = true
