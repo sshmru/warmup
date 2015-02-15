@@ -12,6 +12,8 @@ module.exports = function(app, socket, rootPath, passport, db) {
     if (req.isAuthenticated() && req.user) {
       return next();
     }
+    console.log('unauthorized attempt')
+    res.send('NOT AUTHENTICATED')
     res.redirect('/');
   }
 
@@ -30,7 +32,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   router.get('/posts', function(req, res) {
     var filters = req.body.filters || {}
     if(filters.room === 'general'){
-      filters.room = undefined
+      delete filters.room
     }
     db.getPosts(filters, res.send.bind(res))
   })
@@ -38,9 +40,13 @@ module.exports = function(app, socket, rootPath, passport, db) {
   router.get('/posts/:room', function(req, res) {
     var filters = req.body.filters || {}
     filters.room = req.params.room
+    if(filters.room === 'general'){
+      delete filters.room
+    }
     db.getPosts(filters, res.send.bind(res))
   })
 
+  //doesnt provide comments ! make separate call to get em
   router.get('/post/:id', function(req, res) {
     var id = req.params.id
     db.getPost(id, res.send.bind(res))
@@ -67,12 +73,12 @@ module.exports = function(app, socket, rootPath, passport, db) {
     }
   })
 
-  router.post('/votepost/:id', ensureAuthenticated, function(req, res) {
-    var id = req.params.id || req.body.id
+  router.post('/votepost/:id/:value', ensureAuthenticated, function(req, res) {
     var user = req.user.username
-    var data = req.body.data
-    if (exists(id) && user && data) {
-      db.votePost(id, data, user, res.send.bind(res))
+    var id = Number(req.params.id)
+    var value = Number(req.params.value)
+    if(user){
+      db.votePost(id, value, user, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')
     }
@@ -80,7 +86,10 @@ module.exports = function(app, socket, rootPath, passport, db) {
 
   //COMMENTS
   router.get('/comments/:postId', function(req, res) {
-    var filters = res.body.filters || {}
+    var filters
+    if(req.body && req.body.filters){
+      filters = res.body.filters || {}
+    }
     var postId = req.params.postId
     if (exists(postId)) {
       db.getComments(postId, filters, res.send.bind(res))
@@ -117,13 +126,13 @@ module.exports = function(app, socket, rootPath, passport, db) {
     db.addComment(postId, data, user, res.send.bind(res))
   })
 
-  router.post('/votecomment/:postId/:id', ensureAuthenticated, function(req, res) {
-    var postId = req.params.postId
-    var id = req.params.id
+  router.post('/votecomment/:postId/:id/:value', ensureAuthenticated, function(req, res) {
     var user = req.user.username
-    var data = req.body.data
-    if (exists(id) && exists(postId) && user && data) {
-      db.voteComment(postId, id, data, user, res.send.bind(res))
+    var id = Number(req.params.id)
+    var postId = Number(req.params.value)
+    var value = Number(req.params.value)
+    if(user){
+      db.voteComment(postId, id, value, user, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')
     }

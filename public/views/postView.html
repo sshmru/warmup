@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-sm-2 text-center">
+    <p class='h2'>
+    </p>
+    <div class="btn-group-vertical">
+      <button ng-click="votePost(1)" class="btn btn-success">upvote</button>
+      <button ng-click="votePost(0)" class="btn btn-danger">downvote</button>
+    </div>
+  </div>
+  <div class="col-sm-10 container-fluid">
+    <div class="row">
+
+      <h1 class="h2">{{currentPost.title}}</h1>
+      <h4>By: <a ng-href="/u/{{currentPost.author}}">{{currentPost.author}}</a> <small>{{currentPost.updated | date}}</small></h4>
+      <hr/>
+      <article class="" ng-show="!editMode" linkify="currentPost.content"></article>
+      <hr/>
+      <p class="text-muted">
+        <span ng-repeat="tag in currentPost.tags"> #{{tag}}{{$last ? '' : ','}}</span>
+      </p>
+      <form class="form-group" ng-show="editAllowed">
+        <textarea ng-show="editMode" ng-model="currentPost.newContent" class='form-control'></textarea>
+        <div class="form-group pull-right">
+          <button ng-click="startEdit()" class="btn btn-default">Edit</button>
+          <button ng-click="cancelEdit()" ng-show="editMode" class="btn btn-default">Cancel</button>
+          <button ng-show="editMode" ng-click="saveEdit()" class="btn btn-default">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="">
+  <h4>Comments:</h4>
+  <div class="row">
+    <form ng-submit="submitComment()" class="form-group ">
+      <textarea ng-focus="expandComment = true" 
+        ng-blur="newComment.trim() || (expandComment = false)" 
+        rows="{{expandComment ? 5 : 1}}" 
+        type="text" ng-model="newComment" 
+        placeholder="comment"
+        class="form-control">
+      </textarea>
+      <input ng-show="expandComment" type="submit" value="submit" class="btn btn-primary">
+    </form>
+  </div>
+
+  <div ng-repeat="comment in comments" class="row panel panel-defaul
+      t">
+    <div class="col-sm-2 text-center">
+      <p class="h4">
+      </p>
+      <div class="btn-group-vertical">
+        <button ng-click="voteComment(comment.id, 1)" class="btn btn-success">upvote</button>
+        <button ng-click="voteComment(comment.id, 0)" class="btn  btn-danger">downvote</button>
+      </div>
+    </div>
+    <div class="col-sm-10 well">
+      <h4>By: <a ng-href="/u/{{comment.author}}">{{comment.author}}</a> <small>{{comment.date | date}}</small></h4>
+      <p>{{comment.text}}</p>
+    </div>
+  </div>
+</div>

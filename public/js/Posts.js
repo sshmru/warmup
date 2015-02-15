@@ -9,7 +9,7 @@ app.factory('Posts', ['$http', '$routeParams',
 
     factory.getPosts = function(filter, callback) {
       console.log(filter)
-      $http.get('/posts', filter)
+      $http.get('/posts/' + filter.room, filter)
         .success(function(data) {
           factory.data = data
           console.log(data)

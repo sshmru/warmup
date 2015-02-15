@@ -15,7 +15,6 @@ app.factory('User', ['$http',
         .success(function(data) {
           factory.data = data
           window.sessionStorage['username'] = data.username
-          console.log(factory.data)
           if(callback){
             callback(data)
           }
@@ -40,10 +39,12 @@ app.controller('UserCtrl', ['$scope', 'User',
       User.logout()
     }
     $scope.login = function(loginData){
+      var data = angular.copy(loginData)
+      loginData.password = ''
       var success = function(){
-        loginData = {}
+        console.log('login successfull')
       }
-      User.login(loginData, success)
+      User.login(data, success)
     }
   }
 ])
