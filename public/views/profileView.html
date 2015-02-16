@@ -10,6 +10,9 @@
   <div class="col-sm-10 container-fluid">
     <div ng-show="show === 'info'" class="well row">
       <h1>{{profile.username}}</h1>
+      <!--     
+      <article ng-show="!editMode" linkify="profile.info"></article>
+      -->
       <article ng-show="!editMode">{{profile.info}}</article>
       <form class="form-group" ng-show="editAllowed">
         <textarea ng-show="editMode" ng-model="profile.newInfo" class='form-control'>
