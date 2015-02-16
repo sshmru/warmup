@@ -1,4 +1,5 @@
-app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function($scope, $http, $routeParams, User){
+app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User',
+  function($scope, $http, $routeParams, User) {
     var $scope = $scope;
     $scope.userData = User.data
     $scope.expandComment = false
@@ -8,26 +9,26 @@ app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function(
     $scope.editAllowed = false
 
     $scope.$watch(
-      function(){
+      function() {
         return User.data.username
-      }, 
-      function(newVal, oldVal){
+      },
+      function(newVal, oldVal) {
         $scope.editAllowed = (newVal === $scope.currentPost.author)
       }
     )
 
-    $scope.startEdit = function(){
+    $scope.startEdit = function() {
       $scope.currentPost.newContent = $scope.currentPost.content
       $scope.editMode = true
     }
 
-    $scope.cancelEdit = function(){
-        $scope.editMode = false
+    $scope.cancelEdit = function() {
+      $scope.editMode = false
     }
 
-    $scope.saveEdit = function(){
-      $http.put('/post/'+$routeParams.postId, {
-        content : $scope.currentPost.newContent
+    $scope.saveEdit = function() {
+      $http.put('/post/' + $routeParams.postId, {
+        content: $scope.currentPost.newContent
       })
       $scope.currentPost.content = $scope.currentPost.newContent
       $scope.editMode = false
@@ -35,7 +36,7 @@ app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function(
 
 
     $scope.getPost = function(id) {
-      $http.get('/post/'+ id)
+      $http.get('/post/' + id)
         .success(function(data) {
           $scope.currentPost = data
           $scope.editAllowed = data.author === User.data.username
@@ -44,7 +45,7 @@ app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function(
     }
 
     $scope.getComments = function(id) {
-      $http.get('/comments/'+ id)
+      $http.get('/comments/' + id)
         .success(function(data) {
           $scope.comments = data
           console.log(data)
@@ -60,7 +61,7 @@ app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function(
         postId: $scope.currentPost.id,
         text: $scope.newComment
       }
-      $http.post('/comment/'+$scope.currentPost.id, data)
+      $http.post('/comment/' + $scope.currentPost.id, data)
         .success(function(data) {
           console.log(data)
         })
@@ -78,4 +79,5 @@ app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function(
     }
 
 
-}])
+  }
+])

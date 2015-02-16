@@ -1,4 +1,4 @@
-app.factory('Posts', ['$http', '$routeParams', 
+app.factory('Posts', ['$http', '$routeParams',
   function($http, $routeParams) {
     var factory = {}
     factory.filter = {
@@ -13,14 +13,16 @@ app.factory('Posts', ['$http', '$routeParams',
         .success(function(data) {
           factory.data = data
           console.log(data)
-          if(callback){
+          if (callback) {
             callback(data)
           }
         })
     }
 
-    factory.updatePosts = function(){
-      factory.getPosts({room:$routeParams.roomId})
+    factory.updatePosts = function() {
+      factory.getPosts({
+        room: $routeParams.roomId
+      })
     }
     factory.getPosts(factory.filter)
 

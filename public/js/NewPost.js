@@ -35,7 +35,7 @@ app.controller('newPostCtrl', ['$scope', '$http', 'User', '$routeParams', '$loca
       var obj = $scope.post
       obj.room = $routeParams.roomId
       $http.post('/post', obj)
-      .success(function(url) {
+        .success(function(url) {
           console.log('new posts url: ', url)
           $location.url(url)
             //add jumping to new page here

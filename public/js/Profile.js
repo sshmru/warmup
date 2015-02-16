@@ -6,27 +6,27 @@ app.controller('ProfileCtrl', ['$scope', '$routeParams', '$http', 'User',
     $scope.editAllowed = false
 
     $scope.$watch(
-      function(){
+      function() {
         return User.data.username
-      }, 
-      function(newVal, oldVal){
+      },
+      function(newVal, oldVal) {
         console.log(newVal)
         $scope.editAllowed = (newVal === $scope.profile.username)
       }
     )
 
-    $scope.startEdit = function(){
+    $scope.startEdit = function() {
       $scope.profile.newInfo = $scope.profile.info
       $scope.editMode = true
     }
 
-    $scope.cancelEdit = function(){
-        $scope.editMode = false
+    $scope.cancelEdit = function() {
+      $scope.editMode = false
     }
 
-    $scope.saveEdit = function(){
+    $scope.saveEdit = function() {
       $http.put('/profile/' + $routeParams.profileId, {
-        info : $scope.profile.newInfo
+        info: $scope.profile.newInfo
       })
       $scope.profile.info = $scope.profile.newInfo
       $scope.editMode = false

@@ -31,7 +31,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   //POSTS
   router.get('/posts', function(req, res) {
     var filters = req.body.filters || {}
-    if(filters.room === 'general'){
+    if (filters.room === 'general') {
       delete filters.room
     }
     db.getPosts(filters, res.send.bind(res))
@@ -40,7 +40,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   router.get('/posts/:room', function(req, res) {
     var filters = req.body.filters || {}
     filters.room = req.params.room
-    if(filters.room === 'general'){
+    if (filters.room === 'general') {
       delete filters.room
     }
     db.getPosts(filters, res.send.bind(res))
@@ -54,7 +54,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
 
   router.put('/post/:id', ensureAuthenticated, function(req, res) {
     var user = req.user.username
-    if(req.body){
+    if (req.body) {
       db.editPost(req.params.id, req.body.content, user, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')
@@ -75,7 +75,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
     var user = req.user.username
     var id = Number(req.params.id)
     var value = Number(req.params.value)
-    if(user){
+    if (user) {
       db.votePost(id, value, user, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')
@@ -85,7 +85,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   //COMMENTS
   router.get('/comments/:postId', function(req, res) {
     var filters
-    if(req.body && req.body.filters){
+    if (req.body && req.body.filters) {
       filters = res.body.filters || {}
     }
     var postId = req.params.postId
@@ -129,7 +129,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
     var id = Number(req.params.id)
     var postId = Number(req.params.value)
     var value = Number(req.params.value)
-    if(user){
+    if (user) {
       db.voteComment(postId, id, value, user, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')

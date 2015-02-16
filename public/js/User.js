@@ -2,12 +2,12 @@ app.factory('User', ['$http',
   function($http) {
     var factory = {}
     factory.data = {
-        logged: false
+      logged: false
     }
 
     if (window.sessionStorage['username']) {
       factory.data.logged = true,
-      factory.data.username = window.sessionStorage['username']
+        factory.data.username = window.sessionStorage['username']
     }
 
     factory.login = function(data, callback) {
@@ -15,7 +15,7 @@ app.factory('User', ['$http',
         .success(function(data) {
           factory.data = data
           window.sessionStorage['username'] = data.username
-          if(callback){
+          if (callback) {
             callback(data)
           }
         })
@@ -23,8 +23,10 @@ app.factory('User', ['$http',
 
     factory.logout = function() {
       window.sessionStorage.removeItem('username')
-      factory.data = {logged: false}
-      $http.post('/logout',{})
+      factory.data = {
+        logged: false
+      }
+      $http.post('/logout', {})
     }
 
 
@@ -35,13 +37,13 @@ app.factory('User', ['$http',
 app.controller('UserCtrl', ['$scope', 'User',
   function($scope, User) {
     $scope.user = User
-    $scope.logout = function(){
+    $scope.logout = function() {
       User.logout()
     }
-    $scope.login = function(loginData){
+    $scope.login = function(loginData) {
       var data = angular.copy(loginData)
       loginData.password = ''
-      var success = function(){
+      var success = function() {
         console.log('login successfull')
       }
       User.login(data, success)

@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-2 text-center">
-    <p class='h2'>
-      {{currentPost.score | score}}
-    </p>
     <div class="btn-group-vertical">
+      <p class='h2'>
+        {{currentPost.score | score}}
+      </p>
       <button ng-click="votePost(1)" class="btn btn-success">upvote</button>
       <button ng-click="votePost(0)" class="btn btn-danger">downvote</button>
     </div>
@@ -49,10 +49,10 @@
   <div ng-repeat="comment in comments track by $index" class="row panel panel-defaul
       t">
     <div class="col-sm-2 text-center">
-      <p class="h4">
-        {{comment.score | score}}
-      </p>
       <div class="btn-group-vertical">
+        <p class="h4">
+          {{comment.score | score}}
+        </p>
         <button ng-click="voteComment(comment.id, 1)" class="btn btn-success">upvote</button>
         <button ng-click="voteComment(comment.id, 0)" class="btn  btn-danger">downvote</button>
       </div>
