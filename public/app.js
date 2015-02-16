@@ -16,3 +16,15 @@ app.run(['$rootScope', 'socket', '$location',function($rootScope,socket, $locati
     })
   })
 }])
+
+app.filter('score', function(){
+  return function(data){
+    if(data === 0) {
+      return '+ -'
+    } else if(data > 0) {
+      return '+ ' + data
+    } else {
+      return '- ' + Math.abs(data)
+    }
+  }
+})

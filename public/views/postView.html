@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-sm-2 text-center">
     <p class='h2'>
+      {{currentPost.score | score}}
     </p>
     <div class="btn-group-vertical">
       <button ng-click="votePost(1)" class="btn btn-success">upvote</button>
@@ -45,10 +46,11 @@
     </form>
   </div>
 
-  <div ng-repeat="comment in comments" class="row panel panel-defaul
+  <div ng-repeat="comment in comments track by $index" class="row panel panel-defaul
       t">
     <div class="col-sm-2 text-center">
       <p class="h4">
+        {{comment.score | score}}
       </p>
       <div class="btn-group-vertical">
         <button ng-click="voteComment(comment.id, 1)" class="btn btn-success">upvote</button>

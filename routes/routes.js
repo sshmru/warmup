@@ -52,12 +52,10 @@ module.exports = function(app, socket, rootPath, passport, db) {
     db.getPost(id, res.send.bind(res))
   })
 
-  router.put('/editpost/:id', ensureAuthenticated, function(req, res) {
-    var id = req.params.id || req.body.id
+  router.put('/post/:id', ensureAuthenticated, function(req, res) {
     var user = req.user.username
-    var data = req.body.data
-    if (exists(id) && data && user) {
-      db.editPost(id, data, user, res.send.bind(res))
+    if(req.body){
+      db.editPost(req.params.id, req.body.content, user, res.send.bind(res))
     } else {
       res.send('BAD REQUEST')
     }
@@ -65,7 +63,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
 
   router.post('/post', function(req, res) {
     var user = (req.user) ? req.user.username : 'Anonymous'
-    var data = req.body.data
+    var data = req.body
     if (data) {
       db.addPost(data, user, res.send.bind(res))
     } else {
@@ -108,7 +106,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
     }
   })
 
-  router.put('/editComment/:id', ensureAuthenticated, function(req, res) {
+  router.put('/editcomment/:id', ensureAuthenticated, function(req, res) {
     var id = req.params.id
     var user = req.user.username
     var data = req.body.data
@@ -122,7 +120,7 @@ module.exports = function(app, socket, rootPath, passport, db) {
   router.post('/comment/:postId', function(req, res) {
     var postId = req.params.postId
     var user = (req.user) ? req.user.username : 'Anonymous'
-    var data = req.body.data
+    var data = req.body
     db.addComment(postId, data, user, res.send.bind(res))
   })
 
@@ -147,10 +145,10 @@ module.exports = function(app, socket, rootPath, passport, db) {
   })
 
 
-  router.put('/editProfile/:idOrName', ensureAuthenticated, function(req, res) {
+  router.put('/profile/:idOrName', ensureAuthenticated, function(req, res) {
     var idOrName = req.params.idOrName
     var user = req.user.username
-    var data = req.body.data
+    var data = req.body.info
     db.editProfile(idOrName, data, user, res.send.bind(res))
   })
 

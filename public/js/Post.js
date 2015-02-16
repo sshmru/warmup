@@ -20,12 +20,13 @@ app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function(
       $scope.currentPost.newContent = $scope.currentPost.content
       $scope.editMode = true
     }
+
     $scope.cancelEdit = function(){
         $scope.editMode = false
     }
+
     $scope.saveEdit = function(){
-      $http.post('/editpost', {
-        id: Number($scope.params.postId),
+      $http.put('/post/'+$routeParams.postId, {
         content : $scope.currentPost.newContent
       })
       $scope.currentPost.content = $scope.currentPost.newContent
@@ -59,7 +60,7 @@ app.controller('PostCtrl', ['$scope', '$http', '$routeParams', 'User', function(
         postId: $scope.currentPost.id,
         text: $scope.newComment
       }
-      $http.post('/newcomment', data)
+      $http.post('/comment/'+$scope.currentPost.id, data)
         .success(function(data) {
           console.log(data)
         })

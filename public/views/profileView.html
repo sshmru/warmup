@@ -11,17 +11,21 @@
     <div ng-show="show === 'info'" class="well row">
       <h1>{{profile.username}}</h1>
       <article ng-show="!editMode">{{profile.info}}</article>
-      <form class="form-group" ng-show="editAllowed" <textarea ng-show="editMode" ng-model="profile.newInfo" class='form-control'>
+      <form class="form-group" ng-show="editAllowed">
+        <textarea ng-show="editMode" ng-model="profile.newInfo" class='form-control'>
         </textarea>
         <div class="form-group pull-right">
           <button ng-click="startEdit()" class="btn btn-default">Edit</button>
           <button ng-show="editMode" ng-click="cancelEdit()" class="btn btn-default">Cancel</button>
           <button ng-show="editMode" ng-click="saveEdit()" class="btn btn-default">Save</button>
         </div>
+      </form>
+
     </div>
 
     <div ng-show="show === 'posts'">
       <div ng-repeat="post in profile.posts" class="well row">
+        <h3><a ng-href="r/{{post.room}}/{{post.id}}">{{post.title}}</a></h3>
         <h4>By: {{post.author}} <small>{{post.updated | date}}</small></h4>
         <p>{{post.content}}</p>
       </div>

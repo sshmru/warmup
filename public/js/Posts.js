@@ -19,6 +19,9 @@ app.factory('Posts', ['$http', '$routeParams',
         })
     }
 
+    factory.updatePosts = function(){
+      factory.getPosts({room:$routeParams.roomId})
+    }
     factory.getPosts(factory.filter)
 
 

@@ -22,15 +22,43 @@
     <div class="row">
       <header class="page-header">
         <nav class="nav-static-top nav">
-          <div class="container">
+          <div class="container" ng-controller="RoomsCtrl">
+
+            <ul class="list-inline">
+              <li ng-repeat="chunk in roomChunks">
+                <ul class="list-unstyled" ng-repeat="room in chunk">
+                  <li><a ng-href="/r/{{room.name}}">{{room.name}}</a></li>
+                </ul>
+              </li>
+            </ul>
 
           </div>
         </nav>
       </header>
 
       <div class="col-sm-9">
-        <div class="row">
-
+        <div ng-controller="newPostCtrl as newPost" class="row">
+          <form class="" 
+            ng-submit="submitPost()" 
+            ng-mouseenter="hovered = true" 
+            ng-mouseleave="hovered = false">
+            <div class="form-group"><textarea type="text" 
+                ng-model="post.content"  
+                ng-focus="expand()" 
+                ng-blur="hideUnfocusedEmpty()"  
+                rows="{{expanded ? 5 : 1}}" 
+                class="{{expanded ? 'form-control' : 'form-control'}}" 
+                placeholder="WRITE NEW POST "></textarea></div>
+            <div ng-show="expanded" class="">
+              <div class="form-group">
+                <input type="text" ng-blur="hideUnfocusedEmpty()" ng-model="post.title" placeholder="title" class="form-control" ng-focus="expand()" />
+              </div>
+              <div class="form-group">
+                <input type="text" ng-blur="hideUnfocusedEmpty()" ng-model="post.tags" placeholder="tags" class="form-control" ng-focus="expand()" />
+              </div>
+              <input type="submit" value="submit" class="btn btn-primary">
+            </div>
+          </form>
         </div>
 
         <div ng-view></div>
@@ -86,7 +114,9 @@
   <script src="router.js"></script>
   <script src="js/User.js"></script>
   <script src="js/Room.js"></script>
+  <script src="js/Rooms.js"></script>
   <script src="js/Posts.js"></script>
   <script src="js/Post.js"></script>
+  <script src="js/NewPost.js"></script>
   <script src="js/Profile.js"></script>
 </body>
